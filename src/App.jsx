@@ -1,7 +1,9 @@
 // src/App.jsx
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import app from './firebase/config';  
 import { getApps } from 'firebase/app';
+import Home from './pages/Home';
 
 function App() {
   const apps = getApps();
@@ -10,10 +12,12 @@ function App() {
   
 
   return (
-    <div className="app">
-      <h1>Desertuko Jaiak</h1>
-      <p>Firebase conectado correctamente ✅</p>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        {/* Más rutas se añadirán luego: /eventos, /tienda, /contacto, /admin */}
+      </Routes>
+    </Router>
   );
 }
 

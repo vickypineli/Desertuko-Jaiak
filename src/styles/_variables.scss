@@ -1,32 +1,37 @@
 // 🎨 Paleta oficial Desertuko Jaiak
+// Paleta Desertuko Jaiak
 $color-azul: #194A8D;
 $color-rojo: #D42D3D;
 $color-naranja: #FF8C00;
 $color-blanco: #FFFFFF;
 
-// Tipografía y espaciados
+// Tipografía
+$font-primary: 'Poppins', sans-serif;
 $font-sans: 'Inter', 'Helvetica Neue', Arial, sans-serif;
-$space-xs: 4px;
-$space-sm: 8px;
-$space-md: 16px;
-$space-lg: 24px;
-$space-xl: 48px;
 
-// Mixins útiles
-@mixin container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 $space-md;
-}
+// Espaciados
+$spacing-xs: 0.25rem;
+$spacing-sm: 0.5rem;
+$spacing-md: 1rem;
+$spacing-lg: 2rem;
 
+// Breakpoints
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+
+// Mixins
 @mixin btn-primary {
-  background: $color-azul;
+  background-color: $color-rojo;
   color: $color-blanco;
-  padding: $space-sm $space-md;
-  border-radius: 10px;
-  font-weight: 600;
-  text-decoration: none;
-  display: inline-block;
-  &:hover { opacity: 0.9; }
+  padding: $spacing-sm $spacing-md;
+  border-radius: 0.5rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: $color-naranja;
+  }
 }
