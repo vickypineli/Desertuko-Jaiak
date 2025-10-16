@@ -1,8 +1,11 @@
 // src/App.jsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { LanguageProvider } from './contexts/LanguageProvider';
 import app from './firebase/config';  
 import { getApps } from 'firebase/app';
+import Navbar from './components/Navbar';
+// import Footer from './components/Footer';
 import Home from './pages/Home';
 
 function App() {
@@ -12,12 +15,18 @@ function App() {
   
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        {/* Más rutas se añadirán luego: /eventos, /tienda, /contacto, /admin */}
-      </Routes>
-    </Router>
+    <>
+      <LanguageProvider>
+        <Router>
+          <Navbar />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              {/* Más rutas se añadirán luego: /eventos, /tienda, /contacto, /admin */}
+            </Routes>
+          {/* <Footer /> */}
+        </Router>
+      </LanguageProvider>
+    </>
   );
 }
 

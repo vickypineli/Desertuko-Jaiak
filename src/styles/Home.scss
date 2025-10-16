@@ -1,149 +1,23 @@
-/* src/styles/Home.scss */
+@use './variables' as *;
 
 .home {
   font-family: $font-primary;
   color: $color-azul;
   padding: $spacing-lg;
+}
 
-  &__hero {
-    text-align: center;
-    background-color: $color-azul;
-    color: $color-blanco;
-    padding: $spacing-lg;
+.home__hero {
+  background-color: $color-rojo;
+  color: $color-blanco;
+  padding: $spacing-lg;
+  text-align: center;
+}
 
-    &-title {
-      font-size: 3rem;
-      margin-bottom: $spacing-md;
-    }
+.home__fiestas {
+  margin-top: $spacing-lg;
+}
 
-    &-text {
-      font-size: 1.2rem;
-      margin-bottom: $spacing-md;
-    }
-
-    &-cta,
-    &-btn {
-      @include btn-primary;
-      margin: $spacing-sm;
-      text-decoration: none;
-      display: inline-block;
-    }
-  }
-
-  &__section-title {
-    font-size: 2rem;
-    margin: $spacing-lg 0 $spacing-md 0;
-    color: $color-rojo;
-    text-align: center;
-  }
-
-  &__fiestas {
-    &-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: $spacing-md;
-      justify-content: center;
-      list-style: none;
-      padding: 0;
-    }
-
-    &-card {
-      background-color: $color-blanco;
-      border: 2px solid $color-azul;
-      border-radius: 0.5rem;
-      padding: $spacing-md;
-      text-align: center;
-      width: 180px;
-      transition: transform 0.3s;
-
-      &:hover {
-        transform: translateY(-5px);
-        border-color: $color-naranja;
-      }
-
-      h3 {
-        color: $color-rojo;
-        margin-bottom: $spacing-sm;
-      }
-
-      p {
-        font-weight: bold;
-      }
-    }
-  }
-
-  &__comercios {
-    &-slider {
-      display: flex;
-      overflow-x: auto;
-      gap: $spacing-md;
-      padding: $spacing-sm;
-      scroll-snap-type: x mandatory;
-
-      &::-webkit-scrollbar {
-        display: none;
-      }
-    }
-
-    &-card {
-      flex: 0 0 auto;
-      width: 150px;
-      text-align: center;
-      scroll-snap-align: start;
-      border: 1px solid $color-azul;
-      border-radius: 0.5rem;
-      padding: $spacing-sm;
-      background-color: $color-blanco;
-
-      img {
-        max-width: 100%;
-        margin-bottom: $spacing-xs;
-      }
-
-      p {
-        font-size: 0.9rem;
-        font-weight: bold;
-      }
-    }
-  }
-
-  &__tienda {
-    text-align: center;
-    margin: $spacing-lg 0;
-
-    &-cta {
-      @include btn-primary;
-      text-decoration: none;
-    }
-  }
-
-  &__politica {
-    text-align: center;
-    font-weight: bold;
-    color: $color-naranja;
-    margin: $spacing-lg 0;
-    font-size: 1rem;
-  }
-
-  &__contacto {
-    text-align: center;
-    margin: $spacing-lg 0;
-
-    &-btn {
-      @include btn-primary;
-      text-decoration: none;
-    }
-  }
-
-  /* Responsive */
-  @media (max-width: $breakpoint-md) {
-    &__fiestas-list {
-      flex-direction: column;
-      align-items: center;
-    }
-
-    &__comercios-slider {
-      justify-content: start;
-    }
-  }
+.home__cta-btn {
+  @include btn-primary;
+  margin-top: $spacing-md;
 }

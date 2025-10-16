@@ -1,6 +1,9 @@
 // src/pages/Home.jsx
 import React from 'react';
-import { useTranslation } from '../contexts/LanguageContext';
+import { useTranslation } from 'react-i18next';
+import '../styles/Home.scss';
+
+
 
 function Home() {
   const { t } = useTranslation();
