@@ -65,7 +65,7 @@ function Navbar() {
             <span className="off">EU</span>
           </div>
 
-          <p className="navbar__user">👋 Hola usuario</p>
+          <p className="navbar__user">👋{t('hola')}</p>
 
           {/* BOTÓN MENÚ MÓVIL */}
           <button
