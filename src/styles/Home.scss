@@ -1,23 +1,78 @@
+@use "sass:color";
 @use './variables' as *;
 
-.home {
-  font-family: $font-primary;
-  color: $color-azul;
-  padding: $spacing-lg;
-}
-
 .home__hero {
-  background-color: $color-rojo;
-  color: $color-blanco;
+  background-color: $color-blanco;
+  background-image: 
+    radial-gradient(rgba($color-azul, 0.08) 1px, transparent 1px),
+    url('/src/assets/patterns/doodles-bg-party.svg'); // lo añadiremos ahora
+  background-size: 40px 40px, cover;
+  background-repeat: repeat, no-repeat;
+  background-position: center;
+  color: $color-azul;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
   padding: $spacing-lg;
-  text-align: center;
+  border-bottom: 5px solid $color-rojo;
+
+  &-content {
+    flex: 1 1 50%;
+    text-align: left;
+
+    @media (max-width: $breakpoint-md) {
+      text-align: center;
+    }
+  }
+
+  &-image {
+    flex: 1 1 40%;
+    text-align: center;
+
+    img {
+      max-width: 280px;
+      width: 100%;
+      animation: float 4s ease-in-out infinite;
+    }
+  }
+
+  .home__title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: $color-azul;
+  }
+
+  .home__subtitle {
+    margin-top: $spacing-sm;
+    font-size: 1.2rem;
+    color: $color-rojo;
+  }
+
+  .home__buttons {
+    margin-top: $spacing-md;
+    display: flex;
+    gap: $spacing-md;
+
+    @media (max-width: $breakpoint-md) {
+      justify-content: center;
+    }
+
+    .btn {
+      @include btn-primary;
+
+      &--secondary {
+        background-color: $color-naranja;
+        border: none;
+        &:hover {
+          background-color: color.adjust($color-naranja, $lightness: -10%);
+        }
+      }
+    }
+  }
 }
 
-.home__fiestas {
-  margin-top: $spacing-lg;
-}
-
-.home__cta-btn {
-  @include btn-primary;
-  margin-top: $spacing-md;
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
 }
