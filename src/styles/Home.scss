@@ -1,11 +1,11 @@
 @use "sass:color";
 @use './variables' as *;
 
+/* =========================================================
+   HERO (cabecera principal)
+========================================================= */
 .home__hero {
-  background-color: $color-blanco;
-  background-image: 
-    radial-gradient(rgba($color-azul, 0.08) 1px, transparent 1px),
-    url('/src/assets/patterns/doodles-bg-party.svg'); // lo añadiremos ahora
+  background: none;
   background-size: 40px 40px, cover;
   background-repeat: repeat, no-repeat;
   background-position: center;
@@ -64,6 +64,7 @@
       &--secondary {
         background-color: $color-naranja;
         border: none;
+
         &:hover {
           background-color: color.adjust($color-naranja, $lightness: -10%);
         }
@@ -72,6 +73,229 @@
   }
 }
 
+/* =========================================================
+   SECCIÓN FIESTAS
+========================================================= */
+.home__fiestas {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: $spacing-lg;
+  background-color: color.adjust($color-azul, $lightness: 45%);
+  text-align: center;
+}
+
+.home__section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: $color-naranja;
+  margin-bottom: $spacing-lg;
+}
+
+.home__fiestas-list {
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: $spacing-lg;
+  flex-wrap: wrap;
+}
+
+/* =========================================================
+   SECCIÓN COMERCIOS COLABORADORES
+========================================================= */
+.home__comercios {
+  width: 80%;
+  padding: $spacing-lg;
+  background-color: $color-blanco;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+
+  &__title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: $color-violeta;
+    margin-bottom: $spacing-md;
+  }
+
+  &__text {
+    color: $color-azul;
+    font-size: 1.1rem;
+    max-width: 700px;
+    margin: 0 auto $spacing-md auto;
+  }
+
+  .home__comercios__button {
+    display: inline-block;
+    background-color: $color-naranja;
+    color: $color-blanco;
+    padding: 0.6rem 1.2rem;
+    border-radius: 2rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: color.adjust($color-naranja, $lightness: -10%);
+      transform: scale(1.05);
+    }
+  }
+.home__comercios-slider {
+  width: 100%;
+  overflow: hidden;
+  margin-top: $spacing-lg;
+  position: relative;
+}
+
+.home__comercios-track {
+  display: flex;
+  gap: $spacing-lg;
+  width: max-content;
+  animation: scroll-logos 30s linear infinite;
+}
+
+  /* Animación horizontal de los logos */
+  // .home__comercios__logos {
+  //   display: flex;
+  //   gap: $spacing-lg;
+  //   animation: scroll-logos 30s linear infinite;
+  //   align-items: center;
+  //   margin-top: $spacing-lg;
+
+  //   img {
+  //     height: 60px;
+  //     width: 60px;
+  //     filter: grayscale(100%);
+  //     transition: filter 0.3s ease, transform 0.3s ease;
+
+  //     &:hover {
+  //       filter: grayscale(0%);
+  //       transform: scale(1.1);
+  //     }
+  //   }
+  // }
+
+.home__comercio-card {
+  min-width: 120px;
+  height: 120px;
+  background-color: $color-blanco;
+  // border: 2px solid $color-azul;
+  // border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  img {
+    max-width: 80%;
+    max-height: 80%;
+    object-fit: contain;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease, transform 0.3s ease;
+  }
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+
+    img {
+      filter: grayscale(0%);
+      transform: scale(1.1);
+    }
+  }
+}
+
+  @keyframes scroll-logos {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+}
+
+/* =========================================================
+   SECCIÓN TIENDA / MERCH
+========================================================= */
+.home__tienda {
+  padding: $spacing-xl;
+  background-color: color.adjust($color-violeta, $lightness: 40%);
+  text-align: center;
+
+  &__title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: $color-azul;
+    margin-bottom: $spacing-md;
+  }
+
+  &__description {
+    color: $color-azul;
+    font-size: 1.1rem;
+    max-width: 700px;
+    margin: 0 auto $spacing-lg auto;
+  }
+
+  &__productos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: $spacing-lg;
+
+    .producto {
+      background-color: $color-blanco;
+      border-radius: 1.2rem;
+      padding: $spacing-md;
+      box-shadow: 0 4px 8px rgba($color-azul, 0.1);
+      width: 220px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba($color-azul, 0.15);
+      }
+
+      img {
+        width: 100%;
+        border-radius: 0.8rem;
+        margin-bottom: $spacing-sm;
+      }
+
+      h4 {
+        font-size: 1.1rem;
+        color: $color-violeta;
+        margin-bottom: 0.5rem;
+      }
+
+      p {
+        font-size: 0.95rem;
+        color: $color-azul;
+      }
+    }
+  }
+
+  .home__tienda__button {
+    margin-top: $spacing-lg;
+    display: inline-block;
+    background-color: $color-naranja;
+    color: $color-blanco;
+    padding: 0.7rem 1.4rem;
+    border-radius: 2rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: color.adjust($color-naranja, $lightness: -10%);
+      transform: scale(1.05);
+    }
+  }
+}
+
+/* =========================================================
+   ANIMACIONES GLOBALES
+========================================================= */
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-10px); }
