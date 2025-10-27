@@ -1,10 +1,12 @@
 // src/pages/Home.jsx
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import '../styles/Home.scss';
 import DoodleBackground from '../components/Dooackground';
-import FiestaCard from '../components/FiestaCard';
+import FiestasCarousel from '../components/FiestasCarousel';
+import ComercioLogo from '../components/ComercioLogo';
 
 function Home() {
   const { t } = useTranslation();
@@ -37,7 +39,7 @@ function Home() {
       {/* =====================================================
           HERO PRINCIPAL
       ===================================================== */}
-      <DoodleBackground type="minimal">
+      <DoodleBackground type="default">
         <section className="home__hero">
           <motion.div
             className="home__hero-content"
@@ -76,17 +78,19 @@ function Home() {
       {/* =====================================================
           SECCIÓN FIESTAS
       ===================================================== */}
-      <DoodleBackground type="dark">
-        <section className="home__fiestas">
-          <h2 className="home__section-title">{t("fiestas_del_ano")}</h2>
-          <div className="home__fiestas-list">
-            <FiestaCard nombre="Putxera Eguna" fecha="18 Jun" color="#FF5733" />
-            <FiestaCard nombre="Navidad" fecha="24 Dic" color="#33C1FF" />
-            <FiestaCard nombre="Nochevieja" fecha="31 Dic" color="#8D33FF" />
-          </div>
-        </section>
-      </DoodleBackground>
-
+<DoodleBackground type="dark">
+  <section className="home__fiestas">
+    <h2 className="home__section-title">{t("fiestas_del_ano")}</h2>
+    <FiestasCarousel
+      items={[
+        { nombre: t("desertuko_jaiak"), fecha: "18 Jun", color: "#FF5733" },
+        { nombre: t("putxera_eguna"), fecha: "18 Oct", color: "#33C1FF" },
+        { nombre: t("navidades"), fecha: "24 y 31 Dic", color: "#8D33FF" },
+      ]}
+      autoplayMs={5000}
+    />
+  </section>
+</DoodleBackground>
       {/* =====================================================
           SECCIÓN COMERCIOS COLABORADORES
       ===================================================== */}
@@ -95,22 +99,21 @@ function Home() {
         <section className="home__comercios">
           <h2 className="home__section-title">{t("comercios_colaboradores")}</h2>
           <p className="home__text">{t("comercios_text")}</p>
-          <p className="home__comercios__text">
-            Gracias a los comercios del barrio que hacen posible nuestras fiestas.
-            ¡Apóyalos comprando local!
-          </p>
           <a href="/comercios" className="home__comercios-btn">
             {t("ver_todos")}
           </a>
           <div className="home__comercios-slider">
-            <div className="home__comercios-track">
-              {[...comercios, ...comercios].map((c, index) => (
-                <div key={index} className="home__comercio-card">
-                  <img src={c.logo} alt={c.nombre} className="home__comercio-logo" loading="lazy" />
-                </div>
-              ))}
-            </div>
+          <div className="home__comercios-track">
+            {[...comercios, ...comercios].map((c, index) => (
+                    <ComercioLogo
+                      key={index}
+                      logo={c.logo}
+                      nombre={c.nombre}
+                      link={`/comercios/${c.id}`}
+                    />
+            ))}
           </div>
+        </div>
         </section>
       </DoodleBackground>
 

@@ -1,22 +1,25 @@
+// src/components/FiestaCard.jsx
 import React from "react";
 import PropTypes from "prop-types";
+// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import "../styles/FiestaCard.scss";
 
 function FiestaCard({ nombre, fecha, color }) {
   return (
-    <motion.div
+    <motion.article
       className="fiesta-card"
       style={{ borderColor: color }}
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      viewport={{ once: true, amount: 0.3 }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      transition={{ duration: 0.45, ease: "easeOut" }}
+      aria-label={`${nombre} - ${fecha}`}
     >
-      <div className="fiesta-card__icon" style={{ backgroundColor: color }}></div>
+      <div className="fiesta-card__icon" style={{ backgroundColor: color }} />
       <h3 className="fiesta-card__title">{nombre}</h3>
       <p className="fiesta-card__date">{fecha}</p>
-    </motion.div>
+    </motion.article>
   );
 }
 
@@ -27,3 +30,4 @@ FiestaCard.propTypes = {
 };
 
 export default FiestaCard;
+
