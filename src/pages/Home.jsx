@@ -126,7 +126,7 @@ function Home() {
             ¡Llévate un recuerdo colorido del mejor verano del barrio!
           </p>
 
-          <a href="/tienda" className="home__tienda-cta">
+          <a href="/tienda" className="home__tienda__button">
             {t("cta_tienda")}
           </a>
         </section>

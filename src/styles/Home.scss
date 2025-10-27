@@ -168,7 +168,7 @@
 ========================================================= */
 .home__tienda {
   padding: $spacing-xl;
-  background-color: color.adjust($color-violeta, $lightness: 40%);
+  // background-color: color.adjust($color-violeta, $lightness: 40%);
   text-align: center;
 
   &__title {
@@ -179,7 +179,7 @@
   }
 
   &__description {
-    color: $color-azul;
+    color: $color-blanco;
     font-size: 1.1rem;
     max-width: 700px;
     margin: 0 auto $spacing-lg auto;
@@ -229,7 +229,7 @@
     background-color: $color-naranja;
     color: $color-blanco;
     padding: 0.7rem 1.4rem;
-    border-radius: 2rem;
+    border-radius: 1rem;
     text-decoration: none;
     font-weight: 600;
     transition: all 0.3s ease;
