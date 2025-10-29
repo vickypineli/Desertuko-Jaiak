@@ -1,1 +1,175 @@
 @use './variables' as *;
+
+.footer {
+  background-color: $color-azul;
+  color: $color-blanco;
+  padding: 3rem 1.5rem 1rem;
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+  overflow: hidden;
+
+  // Elementos decorativos de fondo (doodles suaves)
+  &::before, &::after {
+    content: "";
+    position: absolute;
+    width: 160px;
+    height: 160px;
+    background: url("/assets/patterns/feminist-bg.svg") no-repeat center/contain;
+    opacity: 0.12;
+    z-index: 0;
+  }
+
+  &::before {
+    top: -20px;
+    left: -40px;
+  }
+
+  &::after {
+    bottom: -30px;
+    right: -40px;
+    transform: rotate(25deg);
+  }
+
+  &__container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2.5rem;
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  &__brand {
+    .footer__title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: $color-naranja;
+    }
+
+    .footer__text {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      max-width: 300px;
+    }
+  }
+
+  &__links {
+    .footer__subtitle {
+      font-size: 1.2rem;
+      margin-bottom: 0.8rem;
+      color: $color-blanco;
+      font-weight: 600;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      li {
+        margin-bottom: 0.5rem;
+        a {
+          color: $color-naranja;
+          text-decoration: none;
+          font-weight: 500;
+          transition: color 0.3s ease;
+
+          &:hover {
+            color: $color-blanco;
+          }
+        }
+      }
+    }
+  }
+
+  &__social {
+    .footer__subtitle {
+      font-size: 1.2rem;
+      margin-bottom: 0.8rem;
+      color: $color-blanco;
+      font-weight: 600;
+    }
+
+    .footer__icons {
+      display: flex;
+      gap: 1.2rem;
+
+      a {
+        font-size: 1.8rem;
+        color: $color-naranja;
+        transition: transform 0.3s ease, color 0.3s ease;
+
+        &:hover {
+          color: $color-blanco;
+          transform: scale(1.15);
+        }
+      }
+    }
+  }
+
+  &__bottom {
+    border-top: 1px solid rgba(60, 36, 116, 0.2);
+    margin-top: 2.5rem;
+    padding-top: 1.2rem;
+    text-align: center;
+    font-size: 0.85rem;
+    color: $color-blanco;
+    z-index: 1;
+    position: relative;
+
+    p {
+      margin: 0.3rem 0;
+    }
+  }
+
+  /* 📱 Responsivo */
+  @media (max-width: 768px) {
+    padding: 2.5rem 1rem 1rem;
+
+    &__container {
+      grid-template-columns: 1fr;
+      text-align: center;
+      gap: 2rem;
+    }
+
+    &__brand {
+      .footer__title {
+        font-size: 1.6rem;
+      }
+
+      .footer__text {
+        margin: 0 auto;
+      }
+    }
+
+    &__links {
+      ul li {
+        margin-bottom: 0.6rem;
+        a {
+          font-size: 1rem;
+        }
+      }
+    }
+
+    &__social {
+      .footer__icons {
+        justify-content: center;
+      }
+    }
+
+    &__bottom {
+      font-size: 0.8rem;
+      padding-top: 0.8rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    &__brand .footer__title {
+      font-size: 1.4rem;
+    }
+
+    &__social .footer__icons a {
+      font-size: 1.6rem;
+    }
+  }
+}

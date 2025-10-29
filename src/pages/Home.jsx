@@ -7,6 +7,7 @@ import '../styles/Home.scss';
 import DoodleBackground from '../components/Dooackground';
 import FiestasCarousel from '../components/FiestasCarousel';
 import ComercioLogo from '../components/ComercioLogo';
+import Footer from '../components/Footer';
 
 function Home() {
   const { t } = useTranslation();
@@ -35,7 +36,6 @@ function Home() {
 
   return (
     <div className="home">
-
       {/* =====================================================
           HERO PRINCIPAL
       ===================================================== */}
@@ -75,22 +75,23 @@ function Home() {
         </section>
       </DoodleBackground>
 
+
       {/* =====================================================
           SECCIÓN FIESTAS
       ===================================================== */}
-<DoodleBackground type="dark">
-  <section className="home__fiestas">
-    <h2 className="home__section-title">{t("fiestas_del_ano")}</h2>
-    <FiestasCarousel
-      items={[
-        { nombre: t("desertuko_jaiak"), fecha: "18 Jun", color: "#FF5733" },
-        { nombre: t("putxera_eguna"), fecha: "18 Oct", color: "#33C1FF" },
-        { nombre: t("navidades"), fecha: "24 y 31 Dic", color: "#8D33FF" },
-      ]}
-      autoplayMs={5000}
-    />
-  </section>
-</DoodleBackground>
+      <DoodleBackground type="dark">
+        <section className="home__fiestas">
+          <h2 className="home__section-title">{t("fiestas_del_ano")}</h2>
+          <FiestasCarousel
+            items={[
+              { nombre: t("desertuko_jaiak"), fecha: "18 Jun", color: "#FF5733" },
+              { nombre: t("putxera_eguna"), fecha: "18 Oct", color: "#33C1FF" },
+              { nombre: t("navidades"), fecha: "24 y 31 Dic", color: "#8D33FF" },
+            ]}
+            autoplayMs={5000}
+          />
+        </section>
+      </DoodleBackground>
       {/* =====================================================
           SECCIÓN COMERCIOS COLABORADORES
       ===================================================== */}
@@ -132,36 +133,36 @@ function Home() {
         </section>
       </DoodleBackground>
 
-{/* =====================================================
-   SECCIÓN: Fiestas libres de agresiones / Jai askeak
-   ===================================================== */}
-<DoodleBackground type="feminist">
-  <section className="home__politica" aria-labelledby="politica-title">
-    <div className="home__politica-inner">
-      <div className="home__politica-text">
-        <h2 id="politica-title" className="home__politica-title">
-          {t("fiestas_libres_titulo")}
-        </h2>
-        <p className="home__politica-desc">
-          {t("fiestas_libres_texto")}
-        </p>
-        {/* CTA opcional — descomenta si quieres */}
-        {/* <a href="/protocolo" className="btn btn--primary home__politica-cta">
-          {t("fiestas_libres_cta")}
-        </a> */}
-      </div>
+      {/* =====================================================
+        SECCIÓN: Fiestas libres de agresiones / Jai askeak
+        ===================================================== */}
+      <DoodleBackground type="feminist">
+        <section className="home__politica" aria-labelledby="politica-title">
+          <div className="home__politica-inner">
+            <div className="home__politica-text">
+              <h2 id="politica-title" className="home__politica-title">
+                {t("fiestas_libres_titulo")}
+              </h2>
+              <p className="home__politica-desc">
+                {t("fiestas_libres_texto")}
+              </p>
+              {/* CTA opcional — descomenta si quieres */}
+              {/* <a href="/protocolo" className="btn btn--primary home__politica-cta">
+                {t("fiestas_libres_cta")}
+              </a> */}
+            </div>
 
-      <div className="home__politica-mascota" role="img" aria-label={t('mascota_alt')}>
-        <img
-          src="/src/assets/img/mascota-feminista.png"
-          alt={t('mascota_alt')}
-          loading="lazy"
-        />
-      </div>
-    </div>
-  </section>
-</DoodleBackground>
-
+            <div className="home__politica-mascota" role="img" aria-label={t('mascota_alt')}>
+              <img
+                src="/src/assets/img/mascota-feminista.png"
+                alt={t('mascota_alt')}
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </section>
+      </DoodleBackground>
+      <Footer />
     </div>
 
     
