@@ -6,7 +6,7 @@ import "../styles/DoodleBackground.scss";
 /**
  * DoodleBackground
  * Props:
- * - type: "light" | "dark" | "party" | "minimal" | "default"
+ * - type: "feminist1"| "light" | "dark" | "party" | "minimal" | "default"
  * - children: contenido que se renderiza dentro del fondo
  */
 function DoodleBackground({ type = "light", children }) {
@@ -15,7 +15,7 @@ function DoodleBackground({ type = "light", children }) {
 }
 
 DoodleBackground.propTypes = {
-  type: PropTypes.oneOf(["light", "dark", "party", "minimal", "default"]),
+  type: PropTypes.oneOf(["feminist1","light", "dark", "party", "minimal", "default"]),
   children: PropTypes.node,
 };
 

@@ -12,7 +12,7 @@
   justify-content: center;
   text-align: center;
   overflow: hidden;
-  animation: doodleMove 25s linear infinite;
+  animation: doodleMove 30s linear infinite;
 
   // ===== VARIANTES =====
   &--light {
@@ -53,6 +53,13 @@
       $color-blanco;
     background-size: 400px 400px;
     color: $color-azul;
+  }
+  &--feminist {
+    background:
+      url("../assets/patterns/doodles-bg-feminist1.svg") repeat,
+      $color-blanco;
+    background-size: 600px 600px;
+    color: $color-blanco;
   }
 
   // ===== ANIMACIÓN =====

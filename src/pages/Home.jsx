@@ -132,13 +132,39 @@ function Home() {
         </section>
       </DoodleBackground>
 
-      {/* POLÍTICA */}
-      <DoodleBackground type="default">
-        <section className="home__politica">
-          <p>{t("fiestas_libres_agresiones")}</p>
-        </section>
-      </DoodleBackground>
+{/* =====================================================
+   SECCIÓN: Fiestas libres de agresiones / Jai askeak
+   ===================================================== */}
+<DoodleBackground type="feminist">
+  <section className="home__politica" aria-labelledby="politica-title">
+    <div className="home__politica-inner">
+      <div className="home__politica-text">
+        <h2 id="politica-title" className="home__politica-title">
+          {t("fiestas_libres_titulo")}
+        </h2>
+        <p className="home__politica-desc">
+          {t("fiestas_libres_texto")}
+        </p>
+        {/* CTA opcional — descomenta si quieres */}
+        {/* <a href="/protocolo" className="btn btn--primary home__politica-cta">
+          {t("fiestas_libres_cta")}
+        </a> */}
+      </div>
+
+      <div className="home__politica-mascota" role="img" aria-label={t('mascota_alt')}>
+        <img
+          src="/src/assets/img/mascota-feminista.png"
+          alt={t('mascota_alt')}
+          loading="lazy"
+        />
+      </div>
     </div>
+  </section>
+</DoodleBackground>
+
+    </div>
+
+    
   );
 }
 

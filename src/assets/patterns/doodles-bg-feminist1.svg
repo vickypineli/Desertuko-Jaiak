@@ -1,0 +1,88 @@
+<!-- src/assets/patterns/feminist-bg.svg -->
+<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+ <g class="layer">
+  <title>Layer 1</title>
+  <g fill="none" id="svg_2" stroke-linecap="round" stroke-linejoin="round" transform="matrix(1 0 0 1 0 0) matrix(1.10517 0 0 1.05205 0 -40.1342)">
+   <!-- círculos decorativos -->
+   <circle cx="80" cy="120" fill="#CBB5FF" id="svg_3" r="30"/>
+   <circle cx="220" cy="60" fill="#91599cff" id="svg_4" r="18"/>
+   <circle cx="1060" cy="200" fill="#8715c9ff" id="svg_5" r="24"/>
+   <circle cx="390" cy="400" fill="#8b4599ff" id="svg_6" r="26"/>
+   <circle cx="340" cy="100" fill="#D7BFFF" id="svg_7" r="20"/>
+   <circle cx="980" cy="280" fill="#c39ced" id="svg_8" r="28"/>
+   <!-- símbolos venus animados -->
+   <g>
+    <g transform="translate(300,240) scale(0.8)" opacity="0.95">
+    <circle r="34" fill="#CBB5FF" stroke="#6E3FA3" stroke-width="8"/>
+    <line stroke="#6E3FA3" stroke-width="8" x1="0" x2="0" y1="34" y2="72"/>
+    <line stroke="#41208C" stroke-width="8" x1="-16" x2="16" y1="56" y2="56"/>
+    <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="25s" repeatCount="indefinite" additive="sum"/>
+   </g>
+    <animateTransform attributeName="transform" type="rotate" values="0;10;-10;0" dur="18s" repeatCount="indefinite"/>
+   </g>
+    <g>
+    <g transform="translate(480,720) scale(0.8)" opacity="0.95">
+        <circle r="34" fill="#CBB5FF" stroke="#6E3FA3" stroke-width="8"/>
+        <line stroke="#6E3FA3" stroke-width="8" x1="0" x2="0" y1="34" y2="72"/>
+        <line stroke="#41208C" stroke-width="8" x1="-16" x2="16" y1="56" y2="56"/>
+        <animateTransform attributeName="transform" type="rotate" from="0" to="-360" dur="30s" repeatCount="indefinite" additive="sum"/>
+    </g>
+    <animateTransform attributeName="transform" type="rotate" values="0;10;-10;0" dur="18s" repeatCount="indefinite"/>
+   </g>
+   <g>
+   <g transform="translate(600,440) scale(0.8)" opacity="0.95">
+    <circle r="34" fill="#CBB5FF" stroke="#6E3FA3" stroke-width="8"/>
+    <line stroke="#6E3FA3" stroke-width="8" x1="0" x2="0" y1="34" y2="72"/>
+    <line stroke="#41208C" stroke-width="8" x1="-16" x2="16" y1="56" y2="56"/>
+    <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="28s" repeatCount="indefinite" additive="sum"/>
+   </g>
+       <animateTransform attributeName="transform" type="rotate" values="0;10;-10;0" dur="18s" repeatCount="indefinite"/>
+   </g>
+    <g>
+   <g transform="translate(980,620) scale(0.8)" opacity="0.95">
+    <circle r="34" fill="#CBB5FF" stroke="#6E3FA3" stroke-width="8"/>
+    <line stroke="#6E3FA3" stroke-width="8" x1="0" x2="0" y1="34" y2="72"/>
+    <line stroke="#41208C" stroke-width="8" x1="-16" x2="16" y1="56" y2="56"/>
+    <animateTransform attributeName="transform" type="rotate" from="0" to="-360" dur="32s" repeatCount="indefinite" additive="sum"/>
+   </g>
+       <animateTransform attributeName="transform" type="rotate" values="0;10;-10;0" dur="18s" repeatCount="indefinite"/>
+   </g>
+   <!-- puños -->
+   <g id="svg_25" opacity="0.9" transform="translate(920,140) scale(0.10)">
+    <circle cx="300" cy="100" fill="#c3aeecff" id="svg_26" r="40" stroke="#5B2B91" stroke-width="2"/>
+    <path d="m-10,4q6,-12 18,-10q-2,6 6,12q-6,4 -8,12q-8,-2 -12,-6q-2,-6 -4,-10" fill="#aa99adff" id="svg_27"/>
+   </g>
+   <g id="svg_28" opacity="0.9" transform="translate(820,240) scale(0.10)">
+    <circle cx="100" cy="400" fill="#D7C3FF" id="svg_29" r="40" stroke="#775394ff" stroke-width="2"/>
+    <path d="m-10,4q6,-12 18,-10q-2,6 6,12q-6,4 -8,12q-8,-2 -12,-6q-2,-6 -4,-10" fill="#5B2B91" id="svg_30"/>
+   </g>
+   
+   <!-- cruces y estrellas -->
+    <polygon points="543.9,536.18 546.56,544.79 556.45,544.32 548.15,549.18 551.69,557.5 543.99,551.89 536.3,557.5 539.84,549.18 531.54,544.32 541.43,544.79 543.99,536.18" fill="#AF8DD3">
+    <animateTransform attributeName="transform" type="rotate" values="0;10;-10;0" dur="16s" repeatCount="indefinite"/>
+  </polygon>
+
+  <polygon points="625,276 627,285 637,284 629,289 632,297 625,292 617,297 620,289 612,284 622,284 625,276" fill="#AF8DD3">
+    <animateTransform attributeName="transform" type="rotate" values="0;-15;15;0" dur="20s" repeatCount="indefinite"/>
+  </polygon>
+
+  <polygon points="882,754 884,762 894,762 886,767 889,775 882,770 874,775 877,767 869,762 879,762 882,754" fill="#AF8DD3">
+    <animateTransform attributeName="transform" type="rotate" values="0;10;-10;0" dur="18s" repeatCount="indefinite"/>
+  </polygon>
+ 
+  </g>
+  <g>
+  <ellipse cx="183.5" cy="450" fill="#c39ced" id="svg_43" rx="12.5" ry="12"/>
+  <ellipse cx="886" cy="347" fill="#a96bc5ff" id="svg_52" rx="12" ry="12" transform="matrix(1 0 0 1 0 0)"/>
+  <ellipse cx="693" cy="563" fill="#c39ced" id="svg_54" rx="12.5" ry="12"/>
+  <ellipse cx="185" cy="287" fill="#8d44aaff" id="svg_55" rx="12.5" ry="12" transform="matrix(1 0 0 1 0 0)"/>
+  <ellipse cx="1130" cy="430" fill="#c471cfff" id="svg_56" rx="20.5" ry="19"/>
+  <ellipse cx="757" cy="164" fill="#d9c6ef" id="svg_57" rx="20.5" ry="19"/>
+  <ellipse cx="274" cy="734" fill="#d983e0ff" id="svg_58" rx="20.5" ry="19"/>
+  <ellipse cx="319" cy="517" fill="#d9c6ef" id="svg_59" rx="20.5" ry="19"/>
+  <ellipse cx="96" cy="602" fill="#b281c9ff" id="svg_60" rx="20.5" ry="19"/>
+  <ellipse cx="1086" cy="59" fill="#d9c6ef" id="svg_61" rx="20.5" ry="19"/>
+  <ellipse cx="645" cy="100" fill="#d9c6ef" id="svg_62" rx="20.5" ry="19"/>
+  </g>
+ </g>
+</svg>
