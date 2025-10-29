@@ -118,18 +118,30 @@ function Home() {
         </section>
       </DoodleBackground>
 
-      {/* TIENDA */}
+      {/* =====================================================
+        TIENDA OFICIAL
+        ===================================================== */}
       <DoodleBackground type="dark">
         <section className="home__tienda">
-          <h2 className="home__section-title">{t("tienda")}</h2>
-          <p className="home__tienda__description">
-            Apoya las fiestas con el merchandising oficial de Desertuko Jaiak.
-            ¡Llévate un recuerdo colorido del mejor verano del barrio!
-          </p>
-
-          <a href="/tienda" className="home__tienda__button">
-            {t("cta_tienda")}
-          </a>
+          <article className="home__tienda-textarea" aria-hidden="true">
+            <h2 className="home__tienda__title">{t("tienda")}</h2>
+            <p className="home__tienda__description">
+              Apoya las fiestas con el merchandising oficial de Desertuko Jaiak.
+              ¡Llévate un recuerdo colorido del mejor verano del barrio!
+            </p>
+            <a href="/tienda" className="home__tienda__button">
+              {t("cta_tienda")}
+            </a>
+          </article>
+          <article className="home__tienda-imagearea" aria-hidden="true">
+            <div className="home__tienda-image">
+              <img
+                src="/src/assets/img/tino sin fondo.png"
+                alt={t("tienda_alt")}
+                loading="lazy"
+              />
+            </div>
+          </article>
         </section>
       </DoodleBackground>
 
@@ -154,7 +166,7 @@ function Home() {
 
             <div className="home__politica-mascota" role="img" aria-label={t('mascota_alt')}>
               <img
-                src="/src/assets/img/mascota-feminista.png"
+                src="/src/assets/img/eraso_jaiak.jpg"
                 alt={t('mascota_alt')}
                 loading="lazy"
               />
