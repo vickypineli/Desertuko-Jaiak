@@ -39,7 +39,7 @@ function Home() {
       {/* =====================================================
           HERO PRINCIPAL
       ===================================================== */}
-      <DoodleBackground type="default">
+      <DoodleBackground type="party">
         <section className="home__hero">
           <motion.div
             className="home__hero-content"
@@ -100,9 +100,7 @@ function Home() {
         <section className="home__comercios">
           <h2 className="home__section-title">{t("comercios_colaboradores")}</h2>
           <p className="home__text">{t("comercios_text")}</p>
-          <a href="/comercios" className="home__comercios-btn">
-            {t("ver_todos")}
-          </a>
+
           <div className="home__comercios-slider">
           <div className="home__comercios-track">
             {[...comercios, ...comercios].map((c, index) => (
@@ -114,7 +112,11 @@ function Home() {
                     />
             ))}
           </div>
+
         </div>
+          <a href="/comercios" className="home__comercios-btn">
+            {t("tiendas_colaboradoras")}
+          </a>
         </section>
       </DoodleBackground>
 

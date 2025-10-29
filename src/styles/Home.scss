@@ -5,7 +5,7 @@
    HERO (cabecera principal)
 ========================================================= */
 .home__hero {
-  background: none;
+  background: rgba(255, 255, 255, 0.842);
   background-size: 40px 40px, cover;
   background-repeat: repeat, no-repeat;
   background-position: center;
@@ -111,7 +111,7 @@
 .home__comercios {
   width: 90%;
   padding: $spacing-lg;
-  background-color: color.adjust($color-azul, $lightness: 65%);
+  background-color: color.adjust($color-blanco, $lightness: 80%);
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -130,16 +130,15 @@
     margin: 0 auto $spacing-md auto;
   }
 
-  .home__comercios__button {
+  .home__comercios-btn {
     display: inline-block;
-    background-color: $color-naranja;
+    background-color: $color-rojo;
     color: $color-blanco;
     padding: 0.6rem 1.2rem;
     border-radius: 2rem;
     text-decoration: none;
     font-weight: 600;
     transition: all 0.3s ease;
-
     &:hover {
       background-color: color.adjust($color-naranja, $lightness: -10%);
       transform: scale(1.05);

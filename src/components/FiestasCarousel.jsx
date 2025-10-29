@@ -1,5 +1,6 @@
 // src/components/FiestasCarousel.jsx
 import React, { useEffect, useRef, useState } from "react";
+import { useTranslation } from 'react-i18next';
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import FiestaCard from "./FiestaCard";
@@ -7,73 +8,51 @@ import "../styles/FiestasCarousel.scss";
 
 const DEFAULT_AUTOPLAY_MS = 5000; // 5s
 
-export default function FiestasCarousel({
-  items = [
-    { nombre: "Desertuko Jaiak", fecha: "18 Jun", color: "#FF5733" },
-    { nombre: "Putxera Eguna", fecha: "18 Oct", color: "#33C1FF" },
-    { nombre: "Navidades", fecha: "24 y 31 Dic", color: "#8D33FF" },
-  ],
-  autoplayMs = DEFAULT_AUTOPLAY_MS,
-}) {
+export default function FiestasCarousel({ autoplayMs = DEFAULT_AUTOPLAY_MS }) {
+  const { t } = useTranslation();
+
+  // ✅ Los textos traducibles deben definirse *dentro* del componente
+  const items = [
+    { nombre: t("desertuko_jaiak"), fecha: "18 Jun", color: "#FF5733" },
+    { nombre: t("putxera_eguna"), fecha: "18 Oct", color: "#33C1FF" },
+    { nombre: t("navidad"), fecha: "24 y 31 Dic", color: "#8D33FF" },
+  ];
+
   const count = items.length;
   const [index, setIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const trackRef = useRef(null);
   const autoplayRef = useRef(null);
-  const touchHoldRef = useRef(false); // to detect long press on mobile
+  const touchHoldRef = useRef(false);
 
-  // advance with wrap
-  const goTo = (i) => {
-    const newIndex = (i + count) % count;
-    setIndex(newIndex);
-  };
+  const goTo = (i) => setIndex((i + count) % count);
   const next = () => goTo(index + 1);
   const prev = () => goTo(index - 1);
 
-  // Autoplay effect
+  // Autoplay
   useEffect(() => {
     if (!autoplayMs || isPaused) return;
-    autoplayRef.current = setInterval(() => {
-      next();
-    }, autoplayMs);
-    return () => {
-      clearInterval(autoplayRef.current);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    autoplayRef.current = setInterval(next, autoplayMs);
+    return () => clearInterval(autoplayRef.current);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index, isPaused, autoplayMs]);
 
-  // Pause on hover (desktop)
+  // Pausar con hover o touch
   const handleMouseEnter = () => setIsPaused(true);
   const handleMouseLeave = () => setIsPaused(false);
-
-  // Touch handlers: pause when touch starts (user may hold), resume on end
   const handleTouchStart = () => {
     touchHoldRef.current = true;
     setIsPaused(true);
-    // small timeout to allow short swipe without keeping paused
-    setTimeout(() => {
-      touchHoldRef.current = false;
-    }, 600);
+    setTimeout(() => (touchHoldRef.current = false), 600);
   };
-  const handleTouchEnd = () => {
-    setIsPaused(false);
-  };
+  const handleTouchEnd = () => setIsPaused(false);
 
-  // Drag end: determine swipe direction by offset
   const handleDragEnd = (event, info) => {
     const offset = info.offset.x;
     const velocity = info.velocity.x;
-
-    // threshold in px
     const threshold = 50;
-    if (offset < -threshold || velocity < -500) {
-      next();
-    } else if (offset > threshold || velocity > 500) {
-      prev();
-    } else {
-      // snap back to current index (no change)
-      setIndex((i) => i); // force re-render motion (optional)
-    }
+    if (offset < -threshold || velocity < -500) next();
+    else if (offset > threshold || velocity > 500) prev();
   };
 
   return (
@@ -85,11 +64,11 @@ export default function FiestasCarousel({
       onTouchEnd={handleTouchEnd}
       aria-roledescription="carousel"
     >
-      {/* left doodle button */}
+      {/* Botón izquierda */}
       <button
         className="carousel-btn carousel-btn--left"
         onClick={prev}
-        aria-label="Anterior"
+        aria-label={t("anterior")}
       >
         <span className="doodle-arrow">‹</span>
       </button>
@@ -113,30 +92,27 @@ export default function FiestasCarousel({
         </motion.div>
       </div>
 
-      {/* right doodle button */}
+      {/* Botón derecha */}
       <button
         className="carousel-btn carousel-btn--right"
         onClick={next}
-        aria-label="Siguiente"
+        aria-label={t("siguiente")}
       >
         <span className="doodle-arrow">›</span>
       </button>
 
-      {/* dots */}
+      {/* Dots */}
       <div className="carousel-dots" role="tablist">
-        {items.map((_, i) => {
-          const active = i === index;
-          return (
-            <button
-              key={i}
-              className={`carousel-dot ${active ? "active" : ""}`}
-              onClick={() => goTo(i)}
-              aria-label={`Ir a la diapositiva ${i + 1}`}
-              aria-pressed={active}
-              role="tab"
-            />
-          );
-        })}
+        {items.map((_, i) => (
+          <button
+            key={i}
+            className={`carousel-dot ${i === index ? "active" : ""}`}
+            onClick={() => goTo(i)}
+            aria-label={`${t("ir_a_diapositiva")} ${i + 1}`}
+            aria-pressed={i === index}
+            role="tab"
+          />
+        ))}
       </div>
     </div>
   );

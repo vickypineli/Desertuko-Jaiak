@@ -33,9 +33,9 @@
 
   &--party {
     background:
-      url("../assets/patterns/doodle-bg-party.svg") repeat,
-      color.adjust($color-azul, $lightness: 40%);
-    background-size: 400px 400px;
+      url("../assets/patterns/doodles-bg-party.svg") repeat,
+      color.adjust($color-blanco, $lightness: 40%);
+    background-size: 1000px 1000px;
     color: $color-rojo;
   }
 
