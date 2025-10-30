@@ -7,6 +7,9 @@ import { getApps } from 'firebase/app';
 import Navbar from './components/Navbar';
 // import Footer from './components/Footer';
 import Home from './pages/Home';
+import Collaborators from './pages/Collaborators';
+import CollaboratorModal from './components/CollaboratorModal';
+import AdminPanel from './pages/Admin/AdminPanel';
 
 function App() {
   const apps = getApps();
@@ -21,6 +24,9 @@ function App() {
           <Navbar />
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/comercios" element={<Collaborators />} />
+              <Route path="/comercios/:id" element={<CollaboratorModal />} />
+              <Route path="/admin" element={<AdminPanel />} />
               {/* Más rutas se añadirán luego: /eventos, /tienda, /contacto, /admin */}
             </Routes>
           {/* <Footer /> */}

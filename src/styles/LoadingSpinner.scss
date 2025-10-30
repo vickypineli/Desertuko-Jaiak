@@ -1,0 +1,49 @@
+// src/styles/LoadingSpinner.scss
+@use "./variables" as *;
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+
+  &__circle {
+    width: 60px;
+    height: 60px;
+    border: 6px solid $color-azul;
+    border-top-color: $color-naranja;
+    border-radius: 50%;
+    animation: spin 1.2s linear infinite;
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.2));
+  }
+
+  &__text {
+    font-family: $font-primary;
+    font-size: 1.2rem;
+    color: $color-rojo;
+    animation: bounce 1.6s ease-in-out infinite;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}

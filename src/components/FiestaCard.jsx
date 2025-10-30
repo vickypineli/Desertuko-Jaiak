@@ -32,7 +32,7 @@ function FiestaCard({ nombre, fecha, imagen }) {
 FiestaCard.propTypes = {
   nombre: PropTypes.string.isRequired,
   fecha: PropTypes.string.isRequired,
-  color: PropTypes.string,
+  imagen: PropTypes.string.isRequired,
 };
 
 export default FiestaCard;
