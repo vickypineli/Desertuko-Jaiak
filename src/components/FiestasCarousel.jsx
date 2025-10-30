@@ -12,11 +12,23 @@ export default function FiestasCarousel({ autoplayMs = DEFAULT_AUTOPLAY_MS }) {
   const { t } = useTranslation();
 
   // ✅ Los textos traducibles deben definirse *dentro* del componente
-  const items = [
-    { nombre: t("desertuko_jaiak"), fecha: "18 Jun", color: "#FF5733" },
-    { nombre: t("putxera_eguna"), fecha: "18 Oct", color: "#33C1FF" },
-    { nombre: t("navidad"), fecha: "24 y 31 Dic", color: "#8D33FF" },
-  ];
+const items = [
+  {
+    nombre: t("desertuko_jaiak"),
+    fecha: "18 Jun",
+    imagen: "/src/assets/img/logo1.png"
+  },
+  {
+    nombre: t("putxera_eguna"),
+    fecha: "18 Oct",
+    imagen: "/src/assets/img/logo2.png"
+  },
+  {
+    nombre: t("navidad"),
+    fecha: "24 y 31 Dic",
+    imagen: "/src/assets/img/logo3.png"
+  }
+];
 
   const count = items.length;
   const [index, setIndex] = useState(0);
