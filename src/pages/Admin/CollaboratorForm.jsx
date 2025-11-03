@@ -18,7 +18,7 @@ const CollaboratorForm = () => {
   });
 
   const [logoFile, setLogoFile] = useState(null);
-  const [preview, setPreview] = useState("/assets/default-logo.svg");
+  const [preview, setPreview] = useState("/assets/img/default-logo.svg");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -44,7 +44,7 @@ const CollaboratorForm = () => {
       setPreview(fileURL);
     } else {
       setLogoFile(null);
-      setPreview("/assets/default-logo.png");
+      setPreview("/assets/img/default-logo.svg");
     }
   };
 
@@ -54,7 +54,7 @@ const CollaboratorForm = () => {
     setMessage("");
 
     try {
-      let logoUrl = "/assets/default-logo.png";
+      let logoUrl = "src/assets/img/default-logo.svg";
 
       if (logoFile) {
         const fileName = `${Date.now()}_${logoFile.name}`;
@@ -78,7 +78,7 @@ const CollaboratorForm = () => {
         social: { facebook: "", instagram: "", web: "" },
       });
       setLogoFile(null);
-      setPreview("/assets/default-logo.png");
+      setPreview("/assets/img/default-logo.svg");
     } catch (error) {
       console.error("❌ Error al guardar el comercio:", error);
       setMessage("❌ Error al guardar el comercio");

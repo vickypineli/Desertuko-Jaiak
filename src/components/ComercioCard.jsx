@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/Collaborators.scss";
+import "../styles/ComercioCard.scss";
 
 function ComercioCard({ comercio, onViewMore }) {
   return (
@@ -7,7 +7,7 @@ function ComercioCard({ comercio, onViewMore }) {
       <img src={comercio.logoUrl} alt={comercio.name} className="comercio-card__logo" />
       <h3 className="comercio-card__name">{comercio.name}</h3>
       <p className="comercio-card__category">{comercio.category}</p>
-      <button className="comercio-card__btn" onClick={onViewMore}>
+      <button className="comercio-card__view-more-btn" onClick={onViewMore}>
         Ver más
       </button>
     </div>

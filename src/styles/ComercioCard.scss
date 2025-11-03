@@ -1,0 +1,69 @@
+//src/styles/ComercioCard.scss
+@use "./variables" as *;
+
+.comercio-card {
+  background: $color-blanco;
+  width: 15%;
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: $spacing-lg;
+  font-family: $font-primary;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  }
+
+  &__logo {
+    width: 50%;
+    height: 50%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid rgba($color-azul, 0.3);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: $spacing-sm;
+  }
+
+  &__name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: $color-violeta;
+    margin-bottom: $spacing-xs;
+  }
+
+  &__description {
+    font-size: 0.95rem;
+    color: gray;
+    margin-bottom: $spacing-md;
+  }
+
+    &__view-more-btn {
+        background-color: $color-azul;
+        color: $color-blanco;
+        border: none;
+        border-radius: 0.8rem;
+        padding: $spacing-sm $spacing-md;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    
+        &:hover {
+        background-color: rgba($color-naranja, 0.8);
+        }
+    }
+//   .contact-info {
+//     font-size: 0.9rem;
+//     color: $color-azul;
+
+//     a {
+//       color: $color-azul;
+//       text-decoration: none;
+
+//       &:hover {
+//         text-decoration: underline;
+//       }
+//     }
+//   }
+}

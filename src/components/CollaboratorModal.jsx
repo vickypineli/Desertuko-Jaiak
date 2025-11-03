@@ -1,54 +1,97 @@
 import React from "react";
-// eslint-disable-next-line no-unused-vars
-import { motion, AnimatePresence } from "framer-motion";
+// // eslint-disable-next-line no-unused-vars
+// import { motion, AnimatePresence } from "framer-motion";
 import "../styles/CollaboratorModal.scss";
 
-function CollaboratorModal({ comercio, onClose }) {
-  return (
-    <AnimatePresence>
-      <motion.div
-        className="modal-overlay"
-        onClick={onClose}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-      >
-        <motion.div
-          className="modal-content"
-          onClick={(e) => e.stopPropagation()}
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          exit={{ scale: 0.8, opacity: 0 }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
-        >
-          <button className="modal-close" onClick={onClose}>✕</button>
-          <img src={comercio.logoUrl} alt={comercio.name} className="modal-logo" />
-          <h2 className="modal-title">{comercio.name}</h2>
-          <p className="modal-category">🏷️ {comercio.category}</p>
-          <p className="modal-description">{comercio.description}</p>
-          {comercio.address && <p className="modal-address">📍 {comercio.address}</p>}
+import {
+  FaTimes,
+  FaPhone,
+  FaMapMarkerAlt,
+  FaEnvelope,
+  FaGlobe,
+  FaInstagram,
+  FaFacebook,
+  FaTwitter,
+} from "react-icons/fa";
 
-          <div className="modal-socials">
-            {comercio.social?.instagram && (
-              <a href={comercio.social.instagram} target="_blank" rel="noopener noreferrer">
-                Instagram
+const CollaboratorModal = ({ comercio, onClose }) => {
+  if (!comercio) return null;
+
+  const { logoUrl, name, address, phone, email, description, social = {} } =
+    comercio;
+
+  const socialLinks = [
+    { icon: <FaGlobe />, url: social.web, label: "Web" },
+    { icon: <FaInstagram />, url: social.instagram, label: "Instagram" },
+    { icon: <FaFacebook />, url: social.facebook, label: "Facebook" },
+    { icon: <FaTwitter />, url: social.twitter, label: "Twitter" },
+  ].filter((s) => s.url);
+
+  return (
+    <div className="collaborator-modal__overlay" onClick={onClose}>
+      <div
+        className="collaborator-modal__content"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button className="collaborator-modal__close" onClick={onClose}>
+          <FaTimes />
+        </button>
+
+        {/* Botón flotante de cierre para móvil */}
+        <button className="collaborator-modal__close-floating" onClick={onClose}>
+          <FaTimes />
+        </button>
+
+        <div className="collaborator-modal__header">
+          <img
+            src={logoUrl || "/assets/default-logo.png"}
+            alt={name}
+            className="collaborator-modal__logo"
+          />
+          <h2>{name}</h2>
+        </div>
+
+        <div className="collaborator-modal__info">
+          {address && (
+            <p className="info-item">
+              <FaMapMarkerAlt /> {address}
+            </p>
+          )}
+          {phone && (
+            <p className="info-item">
+              <FaPhone /> {phone}
+            </p>
+          )}
+          {email && (
+            <p className="info-item">
+              <FaEnvelope /> {email}
+            </p>
+          )}
+        </div>
+
+        {description && (
+          <p className="collaborator-modal__description">{description}</p>
+        )}
+
+        {socialLinks.length > 0 && (
+          <div className="collaborator-modal__social">
+            {socialLinks.map((s, i) => (
+              <a
+                key={i}
+                href={s.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={s.label}
+              >
+                {s.icon}
               </a>
-            )}
-            {comercio.social?.facebook && (
-              <a href={comercio.social.facebook} target="_blank" rel="noopener noreferrer">
-                Facebook
-              </a>
-            )}
-            {comercio.social?.web && (
-              <a href={comercio.social.web} target="_blank" rel="noopener noreferrer">
-                Web
-              </a>
-            )}
+            ))}
           </div>
-        </motion.div>
-      </motion.div>
-    </AnimatePresence>
+        )}
+      </div>
+    </div>
   );
-}
+};
 
 export default CollaboratorModal;
+
