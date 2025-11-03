@@ -1,80 +1,189 @@
 // src/pages/Admin/CollaboratorForm.jsx
-import React, { useState } from "react";
-import { addCollaborator, updateCollaborator } from "../../firebase/firestore";
+import { useState } from "react";
+import { addComercio, uploadLogo } from "../../firebase/firestore";
+import "../../styles/CollaboratorForm.scss"; // 👈 Importa los estilos SASS
 
+const CollaboratorForm = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    address: "",
+    phone: "",
+    email: "",
+    description: "",
+    social: {
+      facebook: "",
+      instagram: "",
+      web: "",
+    },
+  });
 
-const CollaboratorForm = ({ collaborator, onClose, onSave }) => {
-  const [formData, setFormData] = useState(
-    collaborator || { name: "", category: "", description: "", logoUrl: "", link: "" }
-  );
+  const [logoFile, setLogoFile] = useState(null);
+  const [preview, setPreview] = useState("/assets/default-logo.svg");
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    if (name.startsWith("social.")) {
+      const key = name.split(".")[1];
+      setFormData((prev) => ({
+        ...prev,
+        social: { ...prev.social, [key]: value },
+      }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setLogoFile(file);
+      const fileURL = URL.createObjectURL(file);
+      setPreview(fileURL);
+    } else {
+      setLogoFile(null);
+      setPreview("/assets/default-logo.png");
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setMessage("");
 
     try {
-      if (collaborator) {
-        await updateCollaborator(collaborator.id, formData);
-        onSave({ ...formData, id: collaborator.id });
-      } else {
-        const id = await addCollaborator(formData);
-        onSave({ ...formData, id });
+      let logoUrl = "/assets/default-logo.png";
+
+      if (logoFile) {
+        const fileName = `${Date.now()}_${logoFile.name}`;
+        logoUrl = await uploadLogo(logoFile, fileName);
       }
-    } catch (err) {
-      console.error("Error guardando colaborador:", err);
+
+      await addComercio({
+        ...formData,
+        logoUrl,
+      });
+
+      setMessage("✅ Comercio agregado correctamente");
+
+      // Reset
+      setFormData({
+        name: "",
+        address: "",
+        phone: "",
+        email: "",
+        description: "",
+        social: { facebook: "", instagram: "", web: "" },
+      });
+      setLogoFile(null);
+      setPreview("/assets/default-logo.png");
+    } catch (error) {
+      console.error("❌ Error al guardar el comercio:", error);
+      setMessage("❌ Error al guardar el comercio");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black/50">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-md"
-      >
-        <h3 className="text-xl font-semibold text-violet-600 mb-4">
-          {collaborator ? "Editar colaborador" : "Añadir colaborador"}
-        </h3>
+    <form className="collaborator-form" onSubmit={handleSubmit}>
+      <h2>Añadir comercio colaborador</h2>
 
-        {["name", "category", "description", "logoUrl", "link"].map((field) => (
-          <div key={field} className="mb-3">
-            <label className="block text-sm font-medium capitalize mb-1 text-gray-700">
-              {field}
-            </label>
-            <input
-              name={field}
-              value={formData[field]}
-              onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-violet-400"
-              required={field !== "description"}
-            />
-          </div>
-        ))}
+      <div className="logo-section">
+        <img src={preview} alt="Vista previa del logo" />
+        <label>Logo de la empresa</label>
+        <input type="file" accept="image/*" onChange={handleFileChange} />
+        <p>Si no tiene logo, se usará uno estándar.</p>
+      </div>
 
-        <div className="flex justify-end gap-3 mt-4">
-          <button
-            type="button"
-            onClick={onClose}
-            className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300"
-          >
-            Cancelar
-          </button>
-          <button
-            type="submit"
-            disabled={loading}
-            className="px-4 py-2 bg-violet-500 text-white rounded-lg hover:bg-violet-600"
-          >
-            {loading ? "Guardando..." : "Guardar"}
-          </button>
-        </div>
-      </form>
-    </div>
+      <div className="form-group">
+        <label>Nombre</label>
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          required
+        />
+      </div>
+
+      <div className="form-group">
+        <label>Dirección</label>
+        <input
+          type="text"
+          name="address"
+          value={formData.address}
+          onChange={handleChange}
+        />
+      </div>
+
+      <div className="form-group">
+        <label>Teléfono de contacto</label>
+        <input
+          type="tel"
+          name="phone"
+          value={formData.phone}
+          onChange={handleChange}
+        />
+      </div>
+
+      <div className="form-group">
+        <label>Correo electrónico</label>
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+        />
+      </div>
+
+      <div className="form-group">
+        <label>Descripción</label>
+        <textarea
+          name="description"
+          value={formData.description}
+          onChange={handleChange}
+          rows={3}
+        />
+      </div>
+
+      <div className="social-section">
+        <h3>Redes sociales y web</h3>
+        <input
+          type="url"
+          name="social.facebook"
+          placeholder="Facebook"
+          value={formData.social.facebook}
+          onChange={handleChange}
+        />
+        <input
+          type="url"
+          name="social.instagram"
+          placeholder="Instagram"
+          value={formData.social.instagram}
+          onChange={handleChange}
+        />
+        <input
+          type="url"
+          name="social.web"
+          placeholder="Página web"
+          value={formData.social.web}
+          onChange={handleChange}
+        />
+      </div>
+
+      <button type="submit" disabled={loading} className="btn-submit">
+        {loading ? "Subiendo..." : "Guardar comercio"}
+      </button>
+
+      {message && (
+        <p className={`message ${message.includes("✅") ? "success" : "error"}`}>
+          {message}
+        </p>
+      )}
+    </form>
   );
 };
 

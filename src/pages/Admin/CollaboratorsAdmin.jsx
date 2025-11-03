@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { getAllComercios, deleteCollaborator } from "../../firebase/firestore";
 import CollaboratorForm from "./CollaboratorForm";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import "../../styles/CollaboratorsAdmin.scss";
+
 
 const CollaboratorsAdmin = () => {
   const [collaborators, setCollaborators] = useState([]);
@@ -27,15 +29,15 @@ const CollaboratorsAdmin = () => {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-md p-6">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-semibold text-violet-600">Colaboradores</h2>
+    <div className="collaborators-admin">
+      <div className="header">
+        <h2>Comercios Colaboradores</h2>
         <button
           onClick={() => {
             setEditing(null);
             setShowForm(true);
           }}
-          className="bg-violet-500 text-white px-4 py-2 rounded-xl hover:bg-violet-600"
+          className="btn-add"
         >
           Añadir nuevo
         </button>
@@ -44,38 +46,40 @@ const CollaboratorsAdmin = () => {
       {loading ? (
         <LoadingSpinner />
       ) : (
-        <table className="min-w-full border border-gray-200 rounded-xl overflow-hidden">
-          <thead className="bg-violet-100">
+        <table className="collaborators-table">
+          <thead>
             <tr>
-              <th className="p-3 text-left">Logo</th>
-              <th className="p-3 text-left">Nombre</th>
-              <th className="p-3 text-left">Categoría</th>
-              <th className="p-3 text-left">Acciones</th>
+              <th>Logo</th>
+              <th>Nombre</th>
+              <th>Dirección</th>
+              <th>Categoría</th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
             {collaborators.map((c) => (
-              <tr key={c.id} className="border-t">
-                <td className="p-3">
+              <tr key={c.id}>
+                <td>
                   {c.logoUrl && (
-                    <img src={c.logoUrl} alt={c.name} className="h-10 w-10 object-contain" />
+                    <img src={c.logoUrl} alt={c.name} className="logo" />
                   )}
                 </td>
-                <td className="p-3">{c.name}</td>
-                <td className="p-3">{c.category}</td>
-                <td className="p-3 flex gap-2">
+                <td>{c.name}</td>
+                <td>{c.address}</td>
+                <td>{c.category}</td>
+                <td className="actions">
                   <button
                     onClick={() => {
                       setEditing(c);
                       setShowForm(true);
                     }}
-                    className="text-violet-600 hover:underline"
+                    className="btn-edit"
                   >
                     Editar
                   </button>
                   <button
                     onClick={() => handleDelete(c.id)}
-                    className="text-red-500 hover:underline"
+                    className="btn-delete"
                   >
                     Eliminar
                   </button>
@@ -93,7 +97,9 @@ const CollaboratorsAdmin = () => {
           onSave={(updated) => {
             if (editing) {
               setCollaborators(
-                collaborators.map((c) => (c.id === updated.id ? updated : c))
+                collaborators.map((c) =>
+                  c.id === updated.id ? updated : c
+                )
               );
             } else {
               setCollaborators([...collaborators, updated]);
@@ -107,3 +113,4 @@ const CollaboratorsAdmin = () => {
 };
 
 export default CollaboratorsAdmin;
+

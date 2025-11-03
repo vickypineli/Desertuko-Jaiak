@@ -11,11 +11,14 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import app  from "./config";
+import app  from "./config"; // Importa tu configuración de Firebase
  // asegúrate de tener firebaseConfig.js configurado
 
 const db = getFirestore(app);
-const storage = getStorage(app);
+// const storage = getStorage(app);
+const storage = getStorage(app); // ✅ usa el bucket definido en config.js
+
+
 
 /* ==============================
    🔹 FUNCIONES PARA COLLABORATORS
@@ -27,7 +30,7 @@ const storage = getStorage(app);
  */
 export const getAllComercios = async () => {
   try {
-    const querySnapshot = await getDocs(collection(db, "collaborators"));
+    const querySnapshot = await getDocs(collection(db, "comercios"));
     const data = querySnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
@@ -46,7 +49,7 @@ export const getAllComercios = async () => {
  */
 export const getComercioById = async (id) => {
   try {
-    const docRef = doc(db, "collaborators", id);
+    const docRef = doc(db, "comercios", id);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       return { id: docSnap.id, ...docSnap.data() };
@@ -67,7 +70,7 @@ export const getComercioById = async (id) => {
  */
 export const addComercio = async (comercio) => {
   try {
-    const docRef = await addDoc(collection(db, "collaborators"), {
+    const docRef = await addDoc(collection(db, "comercios"), {
       name: comercio.name,
       description: comercio.description,
       logoUrl: comercio.logoUrl || "",
@@ -91,7 +94,7 @@ export const addComercio = async (comercio) => {
  */
 export const updateComercio = async (id, data) => {
   try {
-    const docRef = doc(db, "collaborators", id);
+    const docRef = doc(db, "comercios", id);
     await updateDoc(docRef, {
       ...data,
       updatedAt: serverTimestamp(),
@@ -108,7 +111,7 @@ export const updateComercio = async (id, data) => {
  */
 export const deleteComercio = async (id) => {
   try {
-    await deleteDoc(doc(db, "collaborators", id));
+    await deleteDoc(doc(db, "comercios", id));
     console.log("🗑️ Comercio eliminado:", id);
   } catch (error) {
     console.error("❌ Error al eliminar comercio:", error);
@@ -127,7 +130,7 @@ export const deleteComercio = async (id) => {
  */
 export const uploadLogo = async (file, fileName) => {
   try {
-    const storageRef = ref(storage, `collaborators/${fileName}`);
+    const storageRef = ref(storage, `comercios/${fileName}`);
     await uploadBytes(storageRef, file);
     const url = await getDownloadURL(storageRef);
     console.log("📤 Logo subido:", url);
