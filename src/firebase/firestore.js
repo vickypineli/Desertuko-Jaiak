@@ -111,21 +111,26 @@ export const addComercio = async (comercio) => {
  */
 export const updateComercio = async (id, data) => {
   try {
-    // Subir nuevo logo si hay un archivo
-    let logoUrl = data.logoUrl || "";
+    let logoUrl = data.logoUrl; // Mantiene el actual si no se cambia
+
     if (data.logoFile) {
       logoUrl = await uploadImage(data.logoFile, "comercios");
     }
 
     const docRef = doc(db, "comercios", id);
+    // eslint-disable-next-line no-unused-vars
+    const { logoFile, ...restData } = data; // Evita guardar el archivo en Firestore
+
     await updateDoc(docRef, {
-      ...data,
+      ...restData,
       logoUrl,
       updatedAt: serverTimestamp(),
     });
+
     console.log("✅ Comercio actualizado:", id);
   } catch (error) {
     console.error("❌ Error al actualizar comercio:", error);
+    throw error;
   }
 };
 
