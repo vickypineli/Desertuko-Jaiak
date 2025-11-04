@@ -1,5 +1,6 @@
 // @import "./variables";
 @use "./variables" as *;
+
 .collaborator-form {
   max-width: 600px;
   margin: 2rem auto;
@@ -58,19 +59,32 @@
     }
 
     input,
-    textarea {
+    textarea,
+    select {
       width: 100%;
       padding: $spacing-sm;
       border: 1px solid #ddd;
       border-radius: 0.5rem;
       font-family: $font-sans;
       font-size: 1rem;
+      background-color: $color-blanco;
+      color: #333;
+      appearance: none; // limpia el estilo por defecto del select
 
       &:focus {
         outline: none;
         border-color: $color-violeta;
         box-shadow: 0 0 4px rgba($color-violeta, 0.3);
       }
+    }
+
+    // 🔽 icono visual del select (flecha)
+    select {
+      background-image: url("data:image/svg+xml;charset=UTF-8,<svg fill='%23888888' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 0.8rem center;
+      background-size: 1rem;
+      cursor: pointer;
     }
   }
 

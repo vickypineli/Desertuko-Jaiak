@@ -1,10 +1,11 @@
 // src/pages/Admin/CollaboratorForm.jsx
 import { useState } from "react";
-import { addComercio, uploadLogo } from "../../firebase/firestore";
+import { addComercio, uploadImage } from "../../firebase/firestore";
 import "../../styles/CollaboratorForm.scss"; // 👈 Importa los estilos SASS
 
 const CollaboratorForm = () => {
   const [formData, setFormData] = useState({
+    category: "",
     name: "",
     address: "",
     phone: "",
@@ -58,7 +59,7 @@ const CollaboratorForm = () => {
 
       if (logoFile) {
         const fileName = `${Date.now()}_${logoFile.name}`;
-        logoUrl = await uploadLogo(logoFile, fileName);
+        logoUrl = await uploadImage(logoFile, "comercios", fileName);
       }
 
       await addComercio({
@@ -68,8 +69,9 @@ const CollaboratorForm = () => {
 
       setMessage("✅ Comercio agregado correctamente");
 
-      // Reset
+      // Reset del formulario
       setFormData({
+        category: "",
         name: "",
         address: "",
         phone: "",
@@ -96,6 +98,28 @@ const CollaboratorForm = () => {
         <label>Logo de la empresa</label>
         <input type="file" accept="image/*" onChange={handleFileChange} />
         <p>Si no tiene logo, se usará uno estándar.</p>
+      </div>
+
+      {/* Categoría */}
+      <div className="form-group">
+        <label htmlFor="category">Categoría</label>
+        <select
+          id="category"
+          name="category"
+          value={formData.category}
+          onChange={handleChange}
+          required
+        >
+          <option value="">Selecciona una categoría</option>
+          <option value="alimentacion">Alimentación</option>
+          <option value="hosteleria">Hostelería / Bares</option>
+          <option value="ocio">Ocio / Cultura</option>
+          <option value="sanidad">Salud / Sanidad</option>
+          <option value="belleza">Belleza / Cuidado personal</option>
+          <option value="moda">Moda / Ropa</option>
+          <option value="servicios">Servicios</option>
+          <option value="otros">Otros</option>
+        </select>
       </div>
 
       <div className="form-group">
@@ -188,3 +212,4 @@ const CollaboratorForm = () => {
 };
 
 export default CollaboratorForm;
+

@@ -1,30 +1,64 @@
 // src/pages/Admin/AdminPanel.jsx
-import React, { useState } from "react";
-import CollaboratorsAdmin from "./CollaboratorsAdmin";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { FaStore, FaTshirt, FaCalendarAlt } from "react-icons/fa";
+import DoodleBackground from "../../components/Dooackground";
+import BackButton from "../../components/BackButton";
+import "../../styles/AdminPanel.scss";
 
 const AdminPanel = () => {
-  const [activeTab, setActiveTab] = useState("collaborators");
+  const navigate = useNavigate();
+
+  const sections = [
+    {
+      id: "collaborators",
+      title: "Colaboradores",
+      description: "Gestiona los comercios y empresas colaboradoras.",
+      icon: <FaStore />,
+      path: "/admin/collaborators",
+    },
+    {
+      id: "shop",
+      title: "Tienda / Merchandising",
+      description: "Añade, edita o elimina productos del merchandising.",
+      icon: <FaTshirt />,
+      path: "/admin/shop",
+    },
+    {
+      id: "events",
+      title: "Eventos y Actividades",
+      description: "Administra las actividades y el programa de las fiestas.",
+      icon: <FaCalendarAlt />,
+      path: "/admin/events",
+    },
+  ];
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <h1 className="text-3xl font-bold text-violet-600 mb-6">Panel de Administración</h1>
+    <DoodleBackground type="admin">
+      <section className="admin-panel">
+        <div className="admin-panel__header">
+          <h1 className="admin-panel__title">Panel de Administración</h1>
+        </div>
 
-      <nav className="mb-8">
-        <button
-          className={`mr-4 px-4 py-2 rounded-xl ${
-            activeTab === "collaborators"
-              ? "bg-violet-500 text-white"
-              : "bg-white border border-violet-300 text-violet-600"
-          }`}
-          onClick={() => setActiveTab("collaborators")}
-        >
-          Colaboradores
-        </button>
-      </nav>
-
-      {activeTab === "collaborators" && <CollaboratorsAdmin />}
-    </div>
+        <div className="admin-panel__grid">
+          {sections.map((section) => (
+            <div
+              key={section.id}
+              className="admin-panel__card"
+              onClick={() => navigate(section.path)}
+            >
+              <div className="admin-panel__icon">{section.icon}</div>
+              <h2 className="admin-panel__card-title">{section.title}</h2>
+              <p className="admin-panel__card-text">{section.description}</p>
+              <button className="admin-panel__button">Entrar</button>
+            </div>
+          ))}
+        </div>
+         <BackButton path="/" label="🏠 Volver al sitio principal" />
+      </section>
+    </DoodleBackground>
   );
 };
 
 export default AdminPanel;
+

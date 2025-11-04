@@ -62,6 +62,7 @@ const CollaboratorModal = ({ comercio, onClose }) => {
               <FaPhone /> {phone}
             </p>
           )}
+          
           {email && (
             <p className="info-item">
               <FaEnvelope /> {email}

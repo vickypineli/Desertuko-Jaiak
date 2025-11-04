@@ -1,8 +1,9 @@
 // src/pages/Admin/CollaboratorsAdmin.jsx
 import React, { useEffect, useState } from "react";
-import { getAllComercios, deleteCollaborator } from "../../firebase/firestore";
+import { getAllComercios, deleteComercio } from "../../firebase/firestore";
 import CollaboratorForm from "./CollaboratorForm";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import BackButton from "../../components/BackButton";
 import "../../styles/CollaboratorsAdmin.scss";
 
 
@@ -23,7 +24,7 @@ const CollaboratorsAdmin = () => {
 
   const handleDelete = async (id) => {
     if (window.confirm("¿Seguro que quieres eliminar este colaborador?")) {
-      await deleteCollaborator(id);
+      await deleteComercio(id);
       setCollaborators(collaborators.filter((c) => c.id !== id));
     }
   };
@@ -108,6 +109,8 @@ const CollaboratorsAdmin = () => {
           }}
         />
       )}
+      <BackButton />
+      <BackButton path="/" label="🏠 Volver al sitio principal" />
     </div>
   );
 };

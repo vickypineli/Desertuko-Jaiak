@@ -10,6 +10,11 @@ import Home from './pages/Home';
 import Collaborators from './pages/Collaborators';
 import CollaboratorModal from './components/CollaboratorModal';
 import AdminPanel from './pages/Admin/AdminPanel';
+import CollaboratorsAdmin from './pages/Admin/CollaboratorsAdmin';
+import ShopsAdmin from './pages/Admin/ShopsAdmin';
+import EventsAdmin from './pages/Admin/EventsAdmin';
+import ShopPage from './pages/ShopPage';
+
 
 function App() {
   const apps = getApps();
@@ -27,6 +32,10 @@ function App() {
               <Route path="/comercios" element={<Collaborators />} />
               <Route path="/comercios/:id" element={<CollaboratorModal />} />
               <Route path="/admin" element={<AdminPanel />} />
+              <Route path="/admin/collaborators" element={<CollaboratorsAdmin />} />
+              <Route path="/admin/shop" element={<ShopsAdmin />} />
+              <Route path="/admin/events" element={<EventsAdmin />} />
+              <Route path="/tienda" element={<ShopPage />} />
               {/* Más rutas se añadirán luego: /eventos, /tienda, /contacto, /admin */}
             </Routes>
           {/* <Footer /> */}

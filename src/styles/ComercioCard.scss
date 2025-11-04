@@ -3,10 +3,10 @@
 
 .comercio-card {
   background: $color-blanco;
-  width: 15%;
+  width: 18%;
   border-radius: 1.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  padding: $spacing-lg;
+  padding: $spacing-md;
   font-family: $font-primary;
   text-align: center;
   transition: transform 0.3s, box-shadow 0.3s;
@@ -17,8 +17,8 @@
   }
 
   &__logo {
-    width: 50%;
-    height: 50%;
+    width: 40%;
+    height: auto;
     object-fit: cover;
     border-radius: 50%;
     border: 2px solid rgba($color-azul, 0.3);
@@ -66,4 +66,19 @@
 //       }
 //     }
 //   }
+ /*  Responsivo */
+  @media (max-width: 1200px) {
+    width: 22%;
+  }
+
+  @media (max-width: 768px) {
+    width: 25%;
+    padding: $spacing-sm;
+  }
+
+  @media (max-width: 480px) {
+    width: 40%;
+    padding: $spacing-xs;
+  }
+ 
 }
