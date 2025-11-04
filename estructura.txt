@@ -1,0 +1,108 @@
+.
+├── cors.json
+├── eslint.config.js
+├── estructura.txt
+├── firebase.json
+├── index.html
+├── package.json
+├── package-lock.json
+├── public
+│   └── vite.svg
+├── README.md
+├── src
+│   ├── App.jsx
+│   ├── assets
+│   │   ├── img
+│   │   │   ├── default-logo.svg
+│   │   │   ├── default-product.png
+│   │   │   ├── eraso_jaiak.jpg
+│   │   │   ├── logo1.png
+│   │   │   ├── logo2.png
+│   │   │   ├── logo3.png
+│   │   │   ├── logo4.png
+│   │   │   └── tino sin fondo.png
+│   │   └── patterns
+│   │       ├── doodles-bg-dark.svg
+│   │       ├── doodles-bg-feminist1.svg
+│   │       ├── doodles-bg-light.svg
+│   │       ├── doodles-bg-minimal.svg
+│   │       ├── doodles-bg-party.svg
+│   │       └── doodles-bg.svg
+│   ├── components
+│   │   ├── collaborators
+│   │   │   ├── CollaboratorForm.jsx
+│   │   │   └── CollaboratorModal.jsx
+│   │   ├── common
+│   │   │   ├── BackButton.jsx
+│   │   │   ├── Dooackground.jsx
+│   │   │   ├── Footer.jsx
+│   │   │   ├── LoadingSpinner.jsx
+│   │   │   ├── Navbar.jsx
+│   │   │   └── PDFDownloadButton.jsx
+│   │   ├── events
+│   │   │   ├── EventCard.jsx
+│   │   │   ├── EventForm.jsx
+│   │   │   └── FiestaCard.jsx
+│   │   ├── layout
+│   │   │   ├── FiestasCarousel.jsx
+│   │   │   └── Hero.jsx
+│   │   ├── shops
+│   │   │   ├── ComercioCard.jsx
+│   │   │   ├── ComercioLogo.jsx
+│   │   │   ├── ShopForm.jsx
+│   │   │   └── ShopModal.jsx
+│   │   └── ui
+│   │       ├── ActionButtons.jsx
+│   │       └── Button.jsx
+│   ├── contexts
+│   │   └── LanguageProvider.jsx
+│   ├── firebase
+│   │   ├── config.js
+│   │   └── firestore.js
+│   ├── i18n
+│   │   ├── es.json
+│   │   ├── eu.json
+│   │   └── index.js
+│   ├── main.jsx
+│   ├── pages
+│   │   ├── Admin
+│   │   │   ├── AdminPanel.jsx
+│   │   │   ├── CollaboratorsAdmin
+│   │   │   ├── EventsAdmin
+│   │   │   └── ShopAdmin
+│   │   └── Home
+│   │       ├── Collaborators.jsx
+│   │       ├── Events
+│   │       ├── Home.jsx
+│   │       └── ShopPage.jsx
+│   └── styles
+│       ├── base
+│       │   ├── _base.scss
+│       │   └── _variables.scss
+│       ├── components
+│       │   ├── CollaboratorForm.scss
+│       │   ├── CollaboratorModal.scss
+│       │   ├── ComercioCard.scss
+│       │   ├── ComercioLogo.scss
+│       │   ├── DoodleBackground.scss
+│       │   ├── FiestaCard.scss
+│       │   ├── FiestasCarousel.scss
+│       │   ├── Footer.scss
+│       │   ├── LoadingSpinner.scss
+│       │   ├── ShopForm.scss
+│       │   ├── ShopModal.scss
+│       │   └── ShopsAdmin.scss
+│       ├── main.scss
+│       ├── pages
+│       │   ├── AdminPanel.scss
+│       │   ├── CollaboratorsAdmin.scss
+│       │   ├── Collaborators.scss
+│       │   ├── Home.scss
+│       │   └── ShopPage.scss
+│       └── ui
+│           ├── BackButton.scss
+│           ├── Button.scss
+│           └── Navbar.scss
+└── vite.config.js
+
+28 directories, 78 files

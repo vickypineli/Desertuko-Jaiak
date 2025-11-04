@@ -4,16 +4,15 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { LanguageProvider } from './contexts/LanguageProvider';
 import app from './firebase/config';  
 import { getApps } from 'firebase/app';
-import Navbar from './components/Navbar';
-// import Footer from './components/Footer';
-import Home from './pages/Home';
-import Collaborators from './pages/Collaborators';
-import CollaboratorModal from './components/CollaboratorModal';
+import Navbar from './components/common/Navbar';
+import Home from './pages/Home/Home.jsx';
+import CollaboratorsPage from './pages/Home/CollaboratorsPage.jsx';
+import CollaboratorModal from './components/collaborators/CollaboratorModal.jsx';
 import AdminPanel from './pages/Admin/AdminPanel';
-import CollaboratorsAdmin from './pages/Admin/CollaboratorsAdmin';
-import ShopsAdmin from './pages/Admin/ShopsAdmin';
-import EventsAdmin from './pages/Admin/EventsAdmin';
-import ShopPage from './pages/ShopPage';
+import CollaboratorsAdmin from './pages/Admin/CollaboratorsAdmin/CollaboratorsAdmin.jsx';
+import ShopsAdmin from './pages/Admin/ShopAdmin/ShopsAdmin.jsx';
+import EventsAdmin from './pages/Admin/EventsAdmin/EventsAdmin';
+import ShopPage from './pages/Home/ShopPage.jsx';
 
 
 function App() {
@@ -29,7 +28,7 @@ function App() {
           <Navbar />
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/comercios" element={<Collaborators />} />
+              <Route path="/comercios" element={<CollaboratorsPage />} />
               <Route path="/comercios/:id" element={<CollaboratorModal />} />
               <Route path="/admin" element={<AdminPanel />} />
               <Route path="/admin/collaborators" element={<CollaboratorsAdmin />} />

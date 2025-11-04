@@ -1,0 +1,38 @@
+@use "../base/variables" as *;
+
+.btn-back {
+  display: inline-block;
+  margin-bottom: $spacing-md;
+  background-color: $color-violeta;
+  color: $color-blanco;
+  border: none;
+  border-radius: 0.6rem;
+  padding: 0.6rem 1.2rem;
+  font-family: $font-primary;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+
+  &:hover {
+    background-color: darken($color-violeta, 10%);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.admin-section__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-md;
+
+  h2 {
+    color: $color-azul;
+    font-size: 1.6rem;
+    font-weight: 700;
+  }
+}

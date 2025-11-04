@@ -1,0 +1,74 @@
+@use "sass:color";
+@use "../base/variables" as *;
+
+.doodle {
+  position: relative;
+  // width: 100%;
+  min-height: 100%;
+  padding: $spacing-lg;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  animation: doodleMove 30s linear infinite;
+
+  // ===== VARIANTES =====
+  &--light {
+    background:
+      url("../assets/patterns/doodles-bg-light.svg") repeat,
+      $color-blanco;
+    background-size: 400px 400px;
+    color: $color-azul;
+  }
+
+  &--dark {
+    background:
+      url("../assets/patterns/doodles-bg-dark.svg") repeat,
+      $color-azul;
+    background-size: 400px 400px;
+    color: $color-blanco;
+  }
+
+  &--party {
+    background:
+      url("../assets/patterns/doodles-bg-party.svg") repeat,
+      color.adjust($color-blanco, $lightness: 40%);
+    background-size: 1000px 1000px;
+    color: $color-rojo;
+  }
+
+  &--minimal {
+    background:
+      url("../assets/patterns/doodles-bg-minimal.svg") repeat,
+      $color-blanco;
+    background-size: 400px 400px;
+    color: $color-azul;
+  }
+
+  &--default {
+    background:
+      url("../assets/patterns/doodles-bg.svg") repeat,
+      $color-blanco;
+    background-size: 400px 400px;
+    color: $color-azul;
+  }
+  &--feminist {
+    background:
+      url("../assets/patterns/doodles-bg-feminist1.svg") repeat,
+      $color-blanco;
+    background-size: 600px 600px;
+    color: $color-blanco;
+  }
+
+  // ===== ANIMACIÓN =====
+  @keyframes doodleMove {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 400px 400px;
+    }
+  }
+}

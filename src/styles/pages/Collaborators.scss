@@ -1,0 +1,187 @@
+
+@use "../base/variables" as *;
+
+.collaborators {
+    width: 90%;
+    background: rgba($color-blanco, 0.8);
+    border-radius: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: $spacing-lg;
+    font-family: $font-primary;
+    
+    &__grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        
+        gap: $spacing-lg;
+    }
+}
+.collaborator-modal__overlay {
+  position: fixed;
+  inset: 0;
+  background:rgba($color-azul, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  backdrop-filter: blur(3px);
+  animation: fadeIn 0.3s ease forwards;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.collaborator-modal__content {
+  background: $color-blanco;
+  border-radius: 2rem;
+  max-width: 480px;
+  width: 100%;
+  padding: 2rem 2.5rem;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(80, 0, 100, 0.25);
+  animation: slideUp 0.35s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* 🔹 Botón de cierre superior normal */
+.collaborator-modal__close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  color: $color-violeta;
+  cursor: pointer;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+}
+
+/* 🔹 Botón flotante circular para móvil */
+.collaborator-modal__close-floating {
+  display: none;
+  position: fixed;
+  bottom: 1.2rem;
+  right: 1.2rem;
+  background: $color-violeta;
+  color: $color-blanco;
+  border: none;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  font-size: 1.3rem;
+  box-shadow: 0 0 10px rgba(106, 13, 173, 0.3);
+  cursor: pointer;
+  z-index: 1000;
+  animation: pulse 1.8s infinite ease-in-out;
+
+  &:hover {
+    background: rgba($color-azul, 0.8);
+    transform: scale(1.05);
+  }
+}
+
+/* Mostrar solo en móvil */
+@media (max-width: $breakpoint-md) {
+  .collaborator-modal__close {
+    display: none;
+  }
+  .collaborator-modal__close-floating {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.collaborator-modal__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1.2rem;
+
+  .collaborator-modal__logo {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    border-radius: 1rem;
+    background: #f7f5fa;
+    margin-bottom: 1rem;
+    box-shadow: 0 0 10px rgba(106, 13, 173, 0.15);
+  }
+
+  h2 {
+    color: $color-violeta;
+    font-size: 1.7rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+}
+
+.collaborator-modal__info {
+  width: 100%;
+  margin-bottom: 1rem;
+
+  .info-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    color: $color-azul;
+    font-size: 1rem;
+    margin-bottom: 0.4rem;
+    svg {
+      color: $color-violeta;
+    }
+  }
+}
+
+.collaborator-modal__description {
+  color: #333;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+  background-color: #faf7ff;
+  border-radius: 1rem;
+  padding: 1rem 1.2rem;
+}
+
+.collaborator-modal__social {
+  display: flex;
+  gap: 1.2rem;
+  justify-content: center;
+  margin-top: 0.8rem;
+
+  a {
+    color: $color-violeta;
+    font-size: 1.5rem;
+    transition: transform 0.2s ease, color 0.2s ease;
+
+    &:hover {
+      transform: scale(1.2);
+      color: rgba ($color-naranja, 0.8);
+    }
+  }
+}
+
+/* 🔸 Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 10px rgba(106, 13, 173, 0.3); }
+  50% { transform: scale(1.1); box-shadow: 0 0 18px rgba(106, 13, 173, 0.5); }
+}

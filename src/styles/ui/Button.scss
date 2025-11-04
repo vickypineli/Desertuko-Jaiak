@@ -1,0 +1,139 @@
+@use "../base/variables" as *;
+
+.btn {
+  font-family: $font-primary;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+
+  &.sm {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.85rem;
+  }
+
+  &.md {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+  }
+
+  &.lg {
+    padding: 0.8rem 1.4rem;
+    font-size: 1.1rem;
+  }
+
+  /* === Variantes === */
+  &.primary {
+    background-color: $color-violeta;
+    color: $color-blanco;
+
+    &:hover {
+      background-color: darken($color-violeta, 8%);
+      box-shadow: 0 2px 8px rgba($color-violeta, 0.3);
+    }
+
+    &:active {
+      background-color: darken($color-violeta, 15%);
+    }
+  }
+
+  &.secondary {
+    background-color: $color-azul;
+    color: $color-blanco;
+
+    &:hover {
+      background-color: darken($color-azul, 8%);
+      box-shadow: 0 2px 8px rgba($color-azul, 0.3);
+    }
+
+    &:active {
+      background-color: darken($color-azul, 15%);
+    }
+  }
+
+  &.danger {
+    background-color: $color-rojo;
+    color: $color-blanco;
+
+    &:hover {
+      background-color: darken($color-rojo, 8%);
+      box-shadow: 0 2px 8px rgba($color-rojo, 0.3);
+    }
+
+    &:active {
+      background-color: darken($color-rojo, 15%);
+    }
+  }
+
+  &.outline {
+    background-color: transparent;
+    color: $color-violeta;
+    border: 2px solid $color-violeta;
+
+    &:hover {
+      background-color: rgba($color-violeta, 0.1);
+    }
+
+    &:active {
+      background-color: rgba($color-violeta, 0.2);
+    }
+  }
+
+  &:disabled {
+    background-color: #ccc;
+    color: #777;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+  /* === Botón sólo con icono === */
+  &.btn-icon {
+    width: 2.4rem;
+    height: 2.4rem;
+    padding: 0;
+    border-radius: 50%;
+    background-color: rgba($color-violeta, 0.1);
+    color: $color-violeta;
+    font-size: 1.1rem;
+
+    &:hover {
+      background-color: $color-violeta;
+      color: $color-blanco;
+      transform: scale(1.05);
+    }
+
+    &.danger {
+      background-color: rgba($color-rojo, 0.1);
+      color: $color-rojo;
+
+      &:hover {
+        background-color: $color-rojo;
+        color: $color-blanco;
+      }
+    }
+
+    &.secondary {
+      background-color: rgba($color-azul, 0.1);
+      color: $color-azul;
+
+      &:hover {
+        background-color: $color-azul;
+        color: $color-blanco;
+      }
+    }
+  }
+}
+.actions {
+  display: flex;
+  gap: 0.4rem;
+  justify-content: center;
+
+  .btn-icon {
+    margin: 0;
+  }
+}

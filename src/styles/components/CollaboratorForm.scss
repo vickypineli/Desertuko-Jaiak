@@ -1,0 +1,133 @@
+// @import "./variables";
+@use "../base/variables" as *;
+
+.collaborator-form {
+  max-width: 600px;
+  margin: 2rem auto;
+  background-color: $color-blanco;
+  border-radius: 1rem;
+  padding: $spacing-lg;
+  font-family: $font-primary;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    color: $color-violeta;
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: $spacing-md;
+  }
+
+  .logo-section {
+    text-align: center;
+    margin-bottom: $spacing-lg;
+
+    img {
+      width: 8rem;
+      height: 8rem;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 2px solid rgba($color-azul, 0.3);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: $spacing-sm;
+    }
+
+    label {
+      font-weight: bold;
+      color: $color-azul;
+    }
+
+    input {
+      display: block;
+      margin: $spacing-sm auto;
+    }
+
+    p {
+      font-size: 0.85rem;
+      color: gray;
+    }
+  }
+
+  .form-group {
+    margin-bottom: $spacing-md;
+
+    label {
+      display: block;
+      font-weight: 600;
+      color: $color-azul;
+      margin-bottom: $spacing-xs;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: $spacing-sm;
+      border: 1px solid #ddd;
+      border-radius: 0.5rem;
+      font-family: $font-sans;
+      font-size: 1rem;
+      background-color: $color-blanco;
+      color: #333;
+      appearance: none; // limpia el estilo por defecto del select
+
+      &:focus {
+        outline: none;
+        border-color: $color-violeta;
+        box-shadow: 0 0 4px rgba($color-violeta, 0.3);
+      }
+    }
+
+    // 🔽 icono visual del select (flecha)
+    select {
+      background-image: url("data:image/svg+xml;charset=UTF-8,<svg fill='%23888888' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 0.8rem center;
+      background-size: 1rem;
+      cursor: pointer;
+    }
+  }
+
+  .social-section {
+    margin-bottom: $spacing-lg;
+
+    h3 {
+      color: $color-azul;
+      font-weight: 600;
+      margin-bottom: $spacing-sm;
+    }
+
+    input {
+      width: 100%;
+      margin-bottom: $spacing-sm;
+      padding: $spacing-sm;
+      border: 1px solid #ddd;
+      border-radius: 0.5rem;
+
+      &:focus {
+        outline: none;
+        border-color: $color-violeta;
+      }
+    }
+  }
+
+  .btn-submit {
+    @include btn-primary;
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  .message {
+    text-align: center;
+    margin-top: $spacing-sm;
+    font-weight: 500;
+
+    &.success {
+      color: green;
+    }
+
+    &.error {
+      color: $color-rojo;
+    }
+  }
+}

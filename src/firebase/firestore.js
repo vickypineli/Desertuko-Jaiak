@@ -219,4 +219,163 @@ export const deleteProduct = async (id) => {
     console.error("❌ Error al eliminar producto:", error);
   }
 };
+/* =========================================
+   🔹 FUNCIONES PARA EVENTOS Y ACTIVIDADES
+   ========================================= */
+
+/**
+ * Obtener todos los eventos
+ * (Ejemplo: Fiestas Desertu, Putxera Eguna, Navidades...)
+ */
+export const getAllEvents = async () => {
+  try {
+    const querySnapshot = await getDocs(collection(db, "eventos"));
+    return querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+  } catch (error) {
+    console.error("❌ Error al obtener eventos:", error);
+    return [];
+  }
+};
+
+/**
+ * Obtener todas las actividades de todos los eventos
+ */
+export const getAllActivities = async () => {
+  try {
+    const eventsSnapshot = await getDocs(collection(db, "eventos"));
+    const activities = [];
+
+    for (const eventDoc of eventsSnapshot.docs) {
+      const eventId = eventDoc.id;
+      const eventData = eventDoc.data();
+
+      const activitiesSnapshot = await getDocs(
+        collection(db, `eventos/${eventId}/actividades`)
+      );
+
+      activitiesSnapshot.forEach((activityDoc) => {
+        activities.push({
+          id: activityDoc.id,
+          eventId,
+          eventName: eventData?.name || {},
+          ...activityDoc.data(),
+        });
+      });
+    }
+
+    return activities;
+  } catch (error) {
+    console.error("❌ Error al obtener actividades:", error);
+    return [];
+  }
+};
+
+/**
+ * Obtener todas las actividades de un evento concreto
+ */
+export const getActivitiesByEvent = async (eventId) => {
+  try {
+    const querySnapshot = await getDocs(
+      collection(db, `eventos/${eventId}/actividades`)
+    );
+    return querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      eventId,
+      ...doc.data(),
+    }));
+  } catch (error) {
+    console.error(`❌ Error al obtener actividades del evento ${eventId}:`, error);
+    return [];
+  }
+};
+
+/**
+ * Añadir una nueva actividad a un evento
+ * @param {string} eventId - ID del evento
+ * @param {object} activityData - Datos de la actividad
+ */
+export const addActivity = async (eventId, activityData) => {
+  try {
+    const docRef = await addDoc(
+      collection(db, `eventos/${eventId}/actividades`),
+      {
+        ...activityData,
+        createdAt: serverTimestamp(),
+      }
+    );
+    console.log("✅ Actividad añadida:", docRef.id);
+    return docRef.id;
+  } catch (error) {
+    console.error("❌ Error al añadir actividad:", error);
+    throw error;
+  }
+};
+
+/**
+ * Actualizar una actividad existente
+ * @param {string} eventId - ID del evento al que pertenece
+ * @param {string} activityId - ID de la actividad
+ * @param {object} data - Datos actualizados
+ */
+export const updateActivity = async (eventId, activityId, data) => {
+  try {
+    const docRef = doc(db, `eventos/${eventId}/actividades`, activityId);
+    await updateDoc(docRef, { ...data, updatedAt: serverTimestamp() });
+    console.log("✅ Actividad actualizada:", activityId);
+  } catch (error) {
+    console.error("❌ Error al actualizar actividad:", error);
+    throw error;
+  }
+};
+
+/**
+ * Eliminar una actividad
+ * @param {string} eventId - ID del evento
+ * @param {string} activityId - ID de la actividad
+ */
+export const deleteActivity = async (eventId, activityId) => {
+  try {
+    await deleteDoc(doc(db, `eventos/${eventId}/actividades`, activityId));
+    console.log("🗑️ Actividad eliminada:", activityId);
+  } catch (error) {
+    console.error("❌ Error al eliminar actividad:", error);
+    throw error;
+  }
+};
+
+/**
+ * Añadir, actualizar y eliminar eventos
+ */
+export const addEvent = async (data) => {
+  try {
+    const docRef = await addDoc(collection(db, "eventos"), {
+      ...data,
+      createdAt: serverTimestamp(),
+    });
+    return docRef.id;
+  } catch (error) {
+    console.error("❌ Error al crear evento:", error);
+  }
+};
+
+export const updateEvent = async (id, data) => {
+  try {
+    const docRef = doc(db, "eventos", id);
+    await updateDoc(docRef, { ...data, updatedAt: serverTimestamp() });
+  } catch (error) {
+    console.error("❌ Error al actualizar evento:", error);
+  }
+};
+
+export const deleteEvent = async (id) => {
+  try {
+    await deleteDoc(doc(db, "eventos", id));
+  } catch (error) {
+    console.error("❌ Error al eliminar evento:", error);
+  }
+};
+
 
