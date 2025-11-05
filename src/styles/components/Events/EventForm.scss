@@ -1,25 +1,24 @@
 @use "../../base/variables" as *;
 
-.activity-form-container {
+.event-form-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(106, 13, 173, 0.2);
+  backdrop-filter: blur(3px);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999;
-  backdrop-filter: blur(3px);
+  z-index: 1000;
 
-  .activity-form {
-    background: $color-gray-light;
-    padding: $spacing-lg;
+  .event-form-container {
+    background: $color-blanco;
     border-radius: 1rem;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    padding: $spacing-lg;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     width: 95%;
-    max-width: 600px;
+    max-width: 550px;
+    animation: fadeIn 0.3s ease;
     font-family: $font-primary;
-    color: $color-text-dark;
-    animation: fadeIn 0.3s ease-in-out;
 
     h2 {
       text-align: center;
@@ -30,23 +29,23 @@
 
     h3 {
       color: $color-azul;
-      font-size: 1rem;
       margin-top: $spacing-md;
       margin-bottom: $spacing-xs;
+      font-size: 0.95rem;
       text-transform: uppercase;
       letter-spacing: 0.05rem;
     }
 
     label {
-      display: block;
       font-weight: 600;
+      display: block;
       margin-bottom: $spacing-xs;
       color: $color-text-dark;
     }
 
     input,
-    select,
-    textarea {
+    textarea,
+    select {
       width: 100%;
       padding: $spacing-sm;
       border: 2px solid $color-border;
@@ -54,7 +53,6 @@
       font-size: 1rem;
       font-family: $font-sans;
       margin-bottom: $spacing-sm;
-      background-color: $color-blanco;
       transition: border-color 0.3s ease;
 
       &:focus {
@@ -63,19 +61,11 @@
       }
     }
 
-    textarea {
-      min-height: 80px;
-      resize: vertical;
-    }
-
-    .form-group {
-      margin-bottom: $spacing-md;
-    }
-
     .checkbox {
       display: flex;
       align-items: center;
       gap: $spacing-sm;
+      margin-top: $spacing-sm;
 
       input[type="checkbox"] {
         width: 18px;
@@ -91,7 +81,6 @@
 
       button {
         @include btn-primary;
-        font-size: 0.9rem;
 
         &.btn-cancel {
           background-color: $color-gray-light;
@@ -106,9 +95,9 @@
     }
 
     .message {
-      margin-top: $spacing-sm;
       text-align: center;
       font-weight: 600;
+      margin-top: $spacing-sm;
 
       &.success {
         color: $color-naranja;

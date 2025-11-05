@@ -1,12 +1,14 @@
 // src/components/events/EventForm.jsx
 import React, { useEffect, useState } from "react";
 import { addEvent, updateEvent } from "../../firebase/firestore";
-import "../../styles/components/Events/ActivityForm.scss"; // Reutiliza el mismo estilo
+import "../../styles/components/Events/EventForm.scss"; // Reutiliza el mismo estilo
 
 const EventForm = ({ event, onClose, onSave }) => {
   const [formData, setFormData] = useState({
     title: { es: "", eu: "" },
     date: "",
+    isMultiDay: false,
+    endDate: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -18,18 +20,23 @@ const EventForm = ({ event, onClose, onSave }) => {
       setFormData({
         title: event.title || { es: "", eu: "" },
         date: event.date || "",
+        isMultiDay: event.isMultiDay || false,
+        endDate: event.endDate || "",
       });
     }
   }, [event]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
+
     if (name.includes(".")) {
       const [field, lang] = name.split(".");
       setFormData((prev) => ({
         ...prev,
         [field]: { ...prev[field], [lang]: value },
       }));
+    } else if (type === "checkbox") {
+      setFormData((prev) => ({ ...prev, [name]: checked }));
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
@@ -41,13 +48,19 @@ const EventForm = ({ event, onClose, onSave }) => {
     setMessage("");
 
     try {
+      // Si no es multiday, limpiamos la fecha final
+      const dataToSave = {
+        ...formData,
+        endDate: formData.isMultiDay ? formData.endDate : "",
+      };
+
       if (event?.id) {
-        await updateEvent(event.id, formData);
-        onSave({ ...event, ...formData });
+        await updateEvent(event.id, dataToSave);
+        onSave({ ...event, ...dataToSave });
         setMessage("✅ Evento actualizado correctamente");
       } else {
-        const newId = await addEvent(formData);
-        onSave({ id: newId, ...formData });
+        const newId = await addEvent(dataToSave);
+        onSave({ id: newId, ...dataToSave });
         setMessage("✅ Evento añadido correctamente");
       }
     } catch (err) {
@@ -59,8 +72,8 @@ const EventForm = ({ event, onClose, onSave }) => {
   };
 
   return (
-    <div className="activity-form-overlay">
-      <div className="activity-form-container">
+    <div className="event-form-overlay">
+      <div className="event-form-container">
         <h2>{event ? "Editar evento" : "Nuevo evento"}</h2>
 
         <form onSubmit={handleSubmit}>
@@ -85,7 +98,7 @@ const EventForm = ({ event, onClose, onSave }) => {
           />
 
           <div className="form-group">
-            <label>Fecha</label>
+            <label>Fecha de inicio</label>
             <input
               type="date"
               name="date"
@@ -94,6 +107,31 @@ const EventForm = ({ event, onClose, onSave }) => {
               required
             />
           </div>
+
+          <div className="form-group checkbox">
+            <label>
+              <input
+                type="checkbox"
+                name="isMultiDay"
+                checked={formData.isMultiDay}
+                onChange={handleChange}
+              />
+              El evento dura varios días
+            </label>
+          </div>
+
+          {formData.isMultiDay && (
+            <div className="form-group">
+              <label>Fecha final</label>
+              <input
+                type="date"
+                name="endDate"
+                value={formData.endDate}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          )}
 
           <div className="form-actions">
             <button type="submit" disabled={loading}>
