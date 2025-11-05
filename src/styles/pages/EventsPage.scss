@@ -1,0 +1,21 @@
+@use "../base/variables" as *;
+
+.events-page {
+  padding: $spacing-lg;
+  background-color: rgba(255, 255, 255, 0.9);
+
+  .events-page__title {
+    font-family: $font-primary;
+    font-size: 2rem;
+    font-weight: 800;
+    color: $color-azul;
+    text-align: center;
+    margin-bottom: $spacing-lg;
+  }
+
+  .events-page__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: $spacing-lg;
+  }
+}

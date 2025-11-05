@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getAllProducts } from "/src/firebase/firestore";
-import DoodleBackground from "/src/components/common/Dooackground.jsx";
+import DoodleBackground from "/src/components/common/DoodleBackground.jsx";
 import LoadingSpinner from "/src/components/common/LoadingSpinner";
 import Footer from "/src/components/common/Footer";
 import ShopModal from "/src/components/shops/ShopModal.jsx";

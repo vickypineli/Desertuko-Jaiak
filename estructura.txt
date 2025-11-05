@@ -34,7 +34,7 @@
 │   │   │   └── CollaboratorModal.jsx
 │   │   ├── common
 │   │   │   ├── BackButton.jsx
-│   │   │   ├── Dooackground.jsx
+│   │   │   ├── DoodleBackground.jsx
 │   │   │   ├── Footer.jsx
 │   │   │   ├── LoadingSpinner.jsx
 │   │   │   ├── Navbar.jsx

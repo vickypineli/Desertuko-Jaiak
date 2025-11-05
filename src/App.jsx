@@ -8,6 +8,7 @@ import Navbar from './components/common/Navbar';
 import Home from './pages/Home/Home.jsx';
 import CollaboratorsPage from './pages/Home/CollaboratorsPage.jsx';
 import CollaboratorModal from './components/collaborators/CollaboratorModal.jsx';
+import EventsPage from './pages/Home/Events/EventsPage.jsx';  
 import AdminPanel from './pages/Admin/AdminPanel';
 import CollaboratorsAdmin from './pages/Admin/CollaboratorsAdmin/CollaboratorsAdmin.jsx';
 import ShopsAdmin from './pages/Admin/ShopAdmin/ShopsAdmin.jsx';
@@ -30,14 +31,16 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/comercios" element={<CollaboratorsPage />} />
               <Route path="/comercios/:id" element={<CollaboratorModal />} />
+              <Route path="/eventos" element={<EventsPage />} />
+              <Route path="/tienda" element={<ShopPage />} />
+              
+              {/* Rutas de administración */}
               <Route path="/admin" element={<AdminPanel />} />
               <Route path="/admin/collaborators" element={<CollaboratorsAdmin />} />
               <Route path="/admin/shop" element={<ShopsAdmin />} />
               <Route path="/admin/events" element={<EventsAdmin />} />
-              <Route path="/tienda" element={<ShopPage />} />
-              {/* Más rutas se añadirán luego: /eventos, /tienda, /contacto, /admin */}
+              
             </Routes>
-          {/* <Footer /> */}
         </Router>
       </LanguageProvider>
     </>

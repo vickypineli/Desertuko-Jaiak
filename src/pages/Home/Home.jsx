@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import '/src/styles/pages/Home.scss';
-import DoodleBackground from '/src/components/common/Dooackground';
+import DoodleBackground from "/src/components/common/DoodleBackground.jsx";
 import FiestasCarousel from '/src/components/layout/FiestasCarousel.jsx';
 import ComercioLogo from '/src/components/shops/ComercioLogo.jsx';
 import Footer from '/src/components/common/Footer.jsx';
@@ -36,6 +36,7 @@ function Home() {
 
   return (
     <div className="home">
+
       {/* =====================================================
           HERO PRINCIPAL
       ===================================================== */}
@@ -75,7 +76,6 @@ function Home() {
         </section>
       </DoodleBackground>
 
-
       {/* =====================================================
           SECCIÓN FIESTAS
       ===================================================== */}
@@ -92,10 +92,10 @@ function Home() {
           />
         </section>
       </DoodleBackground>
+
       {/* =====================================================
           SECCIÓN COMERCIOS COLABORADORES
       ===================================================== */}
-
       <DoodleBackground type="party">
         <section className="home__comercios">
           <h2 className="home__section-title">{t("comercios_colaboradores")}</h2>
@@ -178,8 +178,6 @@ function Home() {
       </DoodleBackground>
       <Footer />
     </div>
-
-    
   );
 }
 

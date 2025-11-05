@@ -1,4 +1,4 @@
-// src/components/DoodleBackground.jsx
+// src/components/common/DoodleBackground.jsx
 import React from "react";
 import PropTypes from "prop-types";
 import "/src/styles/components/DoodleBackground.scss";

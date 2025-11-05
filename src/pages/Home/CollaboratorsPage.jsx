@@ -4,7 +4,7 @@ import { getAllComercios } from "/src/firebase/firestore";
 import ComercioCard from "/src/components/shops/ComercioCard.jsx";
 import CollaboratorModal from "/src/components/collaborators/CollaboratorModal.jsx";
 import LoadingSpinner from "/src/components/common/LoadingSpinner.jsx";
-import DoodleBackground from "/src/components/common/Dooackground";
+import DoodleBackground from "/src/components/common/DoodleBackground.jsx";
 import Footer from "/src/components/common/Footer.jsx";
 import "/src/styles/pages/Collaborators.scss";
 import { useTranslation } from "react-i18next";

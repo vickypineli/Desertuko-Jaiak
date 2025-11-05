@@ -2,7 +2,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { FaStore, FaTshirt, FaCalendarAlt } from "react-icons/fa";
-import DoodleBackground from "../../components/common/Dooackground";
+import DoodleBackground from "../../components/common/DoodleBackground.jsx";
 import BackButton from "../../components/common/BackButton";
 import "../../styles/pages/AdminPanel.scss";
 

@@ -33,12 +33,12 @@
     color: $color-blanco;
 
     &:hover {
-      background-color: darken($color-violeta, 8%);
+      background-color:rgba($color-azul, 0.1) ;
       box-shadow: 0 2px 8px rgba($color-violeta, 0.3);
     }
 
     &:active {
-      background-color: darken($color-violeta, 15%);
+      background-color: rgba($color-violeta, 0.1);
     }
   }
 
@@ -47,12 +47,12 @@
     color: $color-blanco;
 
     &:hover {
-      background-color: darken($color-azul, 8%);
+      background-color: rgba($color-azul, 0.3);
       box-shadow: 0 2px 8px rgba($color-azul, 0.3);
     }
 
     &:active {
-      background-color: darken($color-azul, 15%);
+      background-color: rgba($color-azul, 0.5);
     }
   }
 
@@ -61,12 +61,12 @@
     color: $color-blanco;
 
     &:hover {
-      background-color: darken($color-rojo, 8%);
+      background-color: rgba($color-rojo, 0.3);
       box-shadow: 0 2px 8px rgba($color-rojo, 0.3);
     }
 
     &:active {
-      background-color: darken($color-rojo, 15%);
+      background-color: rgba($color-rojo, 0.5);
     }
   }
 
