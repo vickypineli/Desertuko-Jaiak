@@ -1,12 +1,13 @@
 // src/components/events/ActivityForm.jsx
 import React, { useState, useEffect } from "react";
-import { getAllEvents, addActivity, updateActivity } from "../../firebase/firestore";
+import { addActivity, updateActivity } from "../../firebase/firestore";
 import "/src/styles/components/Events/ActivityForm.scss";
 
-const ActivityForm = ({ activity, onClose, onSave }) => {
+
+
+const ActivityForm = ({ activity, onSave, onClose, events }) => {
   const [formData, setFormData] = useState({
     eventId: "",
-    eventName: "",
     title: { es: "", eu: "" },
     description: { es: "", eu: "" },
     date: "",
@@ -14,52 +15,15 @@ const ActivityForm = ({ activity, onClose, onSave }) => {
     location: "",
     requiresRegistration: false,
   });
-
-  const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  /* =====================================================
-     🔄 Cargar lista de eventos desde Firestore
-  ===================================================== */
   useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const eventsData = await getAllEvents();
-        setEvents(eventsData);
-      } catch (err) {
-        console.error("❌ Error al cargar eventos:", err);
-        setMessage("Error al cargar los eventos");
-      }
-    };
-
-    fetchEvents();
-  }, []);
-
-  /* =====================================================
-     🌀 Precargar datos si se edita una actividad
-  ===================================================== */
-  useEffect(() => {
-    if (activity) {
-      setFormData({
-        eventId: activity.eventId || "",
-        eventName: activity.eventName || "",
-        title: activity.title || { es: "", eu: "" },
-        description: activity.description || { es: "", eu: "" },
-        date: activity.date || "",
-        time: activity.time || "",
-        location: activity.location || "",
-        requiresRegistration: activity.requiresRegistration || false,
-      });
-    }
+    if (activity) setFormData(activity);
   }, [activity]);
 
-  /* =====================================================
-     🖊️ Manejo de cambios
-  ===================================================== */
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-
     if (name.includes(".")) {
       const [field, lang] = name.split(".");
       setFormData((prev) => ({
@@ -68,66 +32,48 @@ const ActivityForm = ({ activity, onClose, onSave }) => {
       }));
     } else if (type === "checkbox") {
       setFormData((prev) => ({ ...prev, [name]: checked }));
-    } else if (name === "eventId") {
-      const selected = events.find((ev) => ev.id === value);
-      setFormData((prev) => ({
-        ...prev,
-        eventId: value,
-        eventName: selected ? selected.title?.es || selected.title?.eu || "" : "",
-      }));
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
-/* =====================================================
-     💾 Guardar (nuevo o edición)
-  ===================================================== */
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setLoading(true);
-  setMessage("");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setMessage("");
 
-  try {
-    if (!formData.eventId) {
-      setMessage("❌ Debes seleccionar un evento.");
+    try {
+      if (!formData.eventId) {
+        setMessage("❌ Debes seleccionar un evento.");
+        setLoading(false);
+        return;
+      }
+
+      if (activity?.id) {
+        await updateActivity(activity.id, formData);
+        onSave({ ...activity, ...formData });
+        setMessage("✅ Actividad actualizada correctamente");
+      } else {
+        const newId = await addActivity(formData);
+        onSave({ id: newId, ...formData });
+        setMessage("✅ Actividad añadida correctamente");
+      }
+
+      setTimeout(() => onClose(), 1200);
+    } catch (err) {
+      console.error("❌ Error al guardar actividad:", err);
+      setMessage("❌ Error al guardar la actividad");
+    } finally {
       setLoading(false);
-      return;
     }
+  };
 
-    if (activity?.id) {
-      await updateActivity(activity.id, formData);
-      onSave({ ...activity, ...formData });
-      setMessage("✅ Actividad actualizada correctamente");
-    } else {
-      const newId = await addActivity(formData);
-      onSave({ id: newId, ...formData });
-      setMessage("✅ Actividad añadida correctamente");
-    }
-
-    // 🔹 Esperar un poco para mostrar el mensaje antes de cerrar
-    setTimeout(() => {
-      onClose();
-    }, 1200);
-  } catch (err) {
-    console.error("❌ Error al guardar actividad:", err);
-    setMessage("❌ Error al guardar la actividad");
-  } finally {
-    setLoading(false);
-  }
-};
-
-
-  /* =====================================================
-     🧱 Render
-  ===================================================== */
   return (
     <div className="activity-form-container">
       <div className="activity-form">
         <h2>{activity ? "Editar actividad" : "Nueva actividad"}</h2>
 
         <form onSubmit={handleSubmit}>
-          {/* Evento */}
           <label>Evento</label>
           <select
             name="eventId"
@@ -143,7 +89,6 @@ const handleSubmit = async (e) => {
             ))}
           </select>
 
-          {/* Título y descripción (Castellano) */}
           <h3>Castellano</h3>
           <input
             type="text"
@@ -160,7 +105,6 @@ const handleSubmit = async (e) => {
             onChange={handleChange}
           />
 
-          {/* Título y descripción (Euskera) */}
           <h3>Euskera</h3>
           <input
             type="text"
@@ -177,55 +121,60 @@ const handleSubmit = async (e) => {
             onChange={handleChange}
           />
 
-          {/* Fecha y hora */}
-          <div className="form-group">
-            <label>Fecha</label>
-            <input
-              type="date"
-              name="date"
-              value={formData.date}
-              onChange={handleChange}
-              required
-            />
+          <div className="form-row">
+            <label>
+              Fecha
+              <input
+                type="date"
+                name="date"
+                value={formData.date}
+                onChange={handleChange}
+                required
+              />
+            </label>
+            <label>
+              Hora
+              <input
+                type="time"
+                name="time"
+                value={formData.time}
+                onChange={handleChange}
+              />
+            </label>
           </div>
 
-          <div className="form-group">
-            <label>Hora</label>
-            <input
-              type="time"
-              name="time"
-              value={formData.time}
-              onChange={handleChange}
-            />
-          </div>
-
-          {/* Lugar */}
-          <div className="form-group">
-            <label>Lugar</label>
+          <label>
+            Lugar
             <input
               type="text"
               name="location"
               value={formData.location}
               onChange={handleChange}
             />
-          </div>
+          </label>
 
-          {/* Checkbox inscripción */}
-          <div className="form-group checkbox">
-            <label>
-              <input
-                type="checkbox"
-                name="requiresRegistration"
-                checked={formData.requiresRegistration}
-                onChange={handleChange}
-              />
-              Requiere inscripción previa
-            </label>
-          </div>
+          <label className="checkbox">
+            <input
+              type="checkbox"
+              name="requiresRegistration"
+              checked={formData.requiresRegistration}
+              onChange={handleChange}
+            />
+            Requiere inscripción previa
+          </label>
 
-          {/* Botones */}
-          <div className="form-actions">
-            <button type="submit" disabled={loading}>
+          {message && (
+            <p
+              className={`message ${
+                message.startsWith("✅") ? "success" : "error"
+              }`}
+            >
+              {message}
+            </p>
+          )}
+
+          <div className="button-group">
+            <button type="submit" className="btn-primary" disabled={loading}>
               {loading ? "Guardando..." : "Guardar"}
             </button>
             <button type="button" className="btn-cancel" onClick={onClose}>
@@ -233,12 +182,6 @@ const handleSubmit = async (e) => {
             </button>
           </div>
         </form>
-
-        {message && (
-          <p className={`message ${message.includes("✅") ? "success" : "error"}`}>
-            {message}
-          </p>
-        )}
       </div>
     </div>
   );

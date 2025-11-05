@@ -1,142 +1,107 @@
 @use "../../base/variables" as *;
 
-.activity-form {
-  background: #faf7ff;
-  border: 1px solid #e2d8f8;
-  border-radius: 10px;
-  padding: 2rem;
-  max-width: 700px;
-  margin: 2rem auto;
-  box-shadow: 0 2px 8px rgba(130, 87, 230, 0.1);
-  font-family: "Poppins", sans-serif;
-  color: #3b2c58;
+// @import "../../../styles/variables";
+
+.activity-form-container {
+  background-color: $color-blanco;
+  padding: $spacing-lg;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba($color-azul, 0.1);
+  font-family: $font-primary;
+  max-width: 600px;
+  margin: 0 auto;
 
   h2 {
     text-align: center;
-    margin-bottom: 1.5rem;
-    color: #5a3ea1;
-    font-size: 1.6rem;
+    color: $color-violeta;
+    margin-bottom: $spacing-md;
   }
 
   h3 {
-    color: #6a48b8;
-    margin-top: 1.5rem;
-    margin-bottom: 0.5rem;
-    font-size: 1.1rem;
+    color: $color-azul;
+    margin-top: $spacing-md;
+    margin-bottom: $spacing-xs;
+  }
+}
+
+.activity-form {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+
+  input,
+  select,
+  textarea {
+    text-decoration: none;
+    padding: $spacing-sm;
+    border: 1px solid $color-border;
+    border-radius: 0.5rem;
+    font-family: $font-sans;
+    font-size: 0.95rem;
+    transition: border-color 0.2s;
+
+    &:focus {
+      border-color: $color-violeta;
+      outline: none;
+    }
   }
 
-  form {
+  .form-row {
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .form-group {
-    display: flex;
-    flex-direction: column;
+    gap: $spacing-md;
 
     label {
-      font-weight: 600;
-      margin-bottom: 0.3rem;
-      color: #4e3c86;
-    }
-
-    input,
-    select,
-    textarea {
-      border: 1px solid #d8c9f0;
-      border-radius: 6px;
-      padding: 0.6rem 0.8rem;
-      font-size: 1rem;
-      background: #fff;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-
-      &:focus {
-        outline: none;
-        border-color: #a487f8;
-        box-shadow: 0 0 4px rgba(160, 100, 250, 0.2);
-      }
-    }
-
-    textarea {
-      min-height: 90px;
-      resize: vertical;
-    }
-
-    &.checkbox {
-      flex-direction: row;
-      align-items: center;
-      gap: 0.5rem;
-
-      label {
-        margin: 0;
-        font-weight: 500;
-      }
+      flex: 1;
     }
   }
 
-  .form-actions {
+  .checkbox {
     display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-    margin-top: 1.5rem;
-
-    button {
-      padding: 0.6rem 1.4rem;
-      border: none;
-      border-radius: 6px;
-      font-weight: 600;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: background 0.2s ease, transform 0.1s ease;
-
-      &:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-      }
-
-      &:active {
-        transform: scale(0.97);
-      }
-    }
-
-    button[type="submit"] {
-      background: #7a4df8;
-      color: white;
-
-      &:hover:not(:disabled) {
-        background: #6b3fe4;
-      }
-    }
-
-    .btn-cancel {
-      background: #f1ecff;
-      color: #5a3ea1;
-
-      &:hover {
-        background: #e5dbff;
-      }
-    }
+    align-items: center;
+    gap: $spacing-sm;
+    font-weight: 500;
   }
 
   .message {
     text-align: center;
-    margin-top: 1rem;
-    font-weight: 500;
-    font-size: 0.95rem;
-    padding: 0.8rem;
-    border-radius: 6px;
+    font-weight: 600;
+    padding: $spacing-sm;
+    border-radius: 0.5rem;
 
     &.success {
-      background: #e7ffee;
-      color: #218c4b;
-      border: 1px solid #b2e6c1;
+      background-color: rgba($color-naranja, 0.1);
+      color: $color-azul;
     }
 
     &.error {
-      background: #ffeaea;
-      color: #a82424;
-      border: 1px solid #f3b6b6;
+      background-color: rgba ($color-rojo, 0.1);
+      color: $color-rojo;
+    }
+  }
+
+  .button-group {
+    display: flex;
+    justify-content: center;
+    gap: $spacing-md;
+
+    .btn-primary {
+      @include btn-primary;
+      min-width: 140px;
+    }
+
+    .btn-cancel {
+      background-color: $color-gray-light;
+      border: 1px solid $color-border;
+      color: $color-text-dark;
+      padding: $spacing-sm $spacing-md;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: $color-border;
+      }
     }
   }
 }
+
