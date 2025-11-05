@@ -1,5 +1,4 @@
 // src/firebase/firestore.js
-// src/firebase/firestore.js
 import {
   getFirestore,
   collection,
@@ -10,6 +9,8 @@ import {
   updateDoc,
   deleteDoc,
   serverTimestamp,
+  query,
+  where, 
 } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import app from "./config"; // configuración de Firebase
@@ -18,19 +19,16 @@ import app from "./config"; // configuración de Firebase
    🔧 Inicialización
    ========================================= */
 const db = getFirestore(app);
-const storage = getStorage(app); // usa el bucket definido en config.js
+const storage = getStorage(app);
+
+// 🔹 Nombres de las colecciones en Firestore
+const EVENTS_COLLECTION = "eventos";
+const ACTIVITIES_COLLECTION = "actividades";
+
 
 /* =========================================
    🔹 FUNCIONES GENERALES DE SUBIDA DE IMÁGENES
    ========================================= */
-
-/**
- * Subir imagen a Firebase Storage en una carpeta específica.
- * @param {File} file - archivo a subir
- * @param {string} folder - carpeta destino (p.ej. "comercios", "productos")
- * @param {string} [fileName] - nombre opcional del archivo
- * @returns {Promise<string>} URL pública del archivo subido
- */
 export const uploadImage = async (file, folder, fileName = null) => {
   try {
     const safeName = fileName || `${Date.now()}_${file.name}`;
@@ -48,10 +46,6 @@ export const uploadImage = async (file, folder, fileName = null) => {
 /* =========================================
    🔹 FUNCIONES PARA COMERCIOS / COLABORADORES
    ========================================= */
-
-/**
- * Obtener todos los comercios colaboradores
- */
 export const getAllComercios = async () => {
   try {
     const querySnapshot = await getDocs(collection(db, "comercios"));
@@ -62,9 +56,6 @@ export const getAllComercios = async () => {
   }
 };
 
-/**
- * Obtener un comercio por ID
- */
 export const getComercioById = async (id) => {
   try {
     const docRef = doc(db, "comercios", id);
@@ -76,16 +67,10 @@ export const getComercioById = async (id) => {
   }
 };
 
-/**
- * Añadir un nuevo comercio colaborador
- */
 export const addComercio = async (comercio) => {
   try {
-    // Subir logo si hay imagen
     let logoUrl = comercio.logoUrl || "";
-    if (comercio.logoFile) {
-      logoUrl = await uploadImage(comercio.logoFile, "comercios");
-    }
+    if (comercio.logoFile) logoUrl = await uploadImage(comercio.logoFile, "comercios");
 
     const docRef = await addDoc(collection(db, "comercios"), {
       name: comercio.name,
@@ -106,26 +91,15 @@ export const addComercio = async (comercio) => {
   }
 };
 
-/**
- * Actualizar un comercio existente
- */
 export const updateComercio = async (id, data) => {
   try {
-    let logoUrl = data.logoUrl; // Mantiene el actual si no se cambia
-
-    if (data.logoFile) {
-      logoUrl = await uploadImage(data.logoFile, "comercios");
-    }
+    let logoUrl = data.logoUrl;
+    if (data.logoFile) logoUrl = await uploadImage(data.logoFile, "comercios");
 
     const docRef = doc(db, "comercios", id);
-    // eslint-disable-next-line no-unused-vars
-    const { logoFile, ...restData } = data; // Evita guardar el archivo en Firestore
-
-    await updateDoc(docRef, {
-      ...restData,
-      logoUrl,
-      updatedAt: serverTimestamp(),
-    });
+   // eslint-disable-next-line no-unused-vars
+    const { logoFile, ...restData } = data;
+    await updateDoc(docRef, { ...restData, logoUrl, updatedAt: serverTimestamp() });
 
     console.log("✅ Comercio actualizado:", id);
   } catch (error) {
@@ -134,9 +108,6 @@ export const updateComercio = async (id, data) => {
   }
 };
 
-/**
- * Eliminar un comercio por ID
- */
 export const deleteComercio = async (id) => {
   try {
     await deleteDoc(doc(db, "comercios", id));
@@ -149,10 +120,6 @@ export const deleteComercio = async (id) => {
 /* =========================================
    🔹 FUNCIONES PARA PRODUCTOS / TIENDA
    ========================================= */
-
-/**
- * Obtener todos los productos
- */
 export const getAllProducts = async () => {
   try {
     const querySnapshot = await getDocs(collection(db, "productos"));
@@ -163,15 +130,10 @@ export const getAllProducts = async () => {
   }
 };
 
-/**
- * Añadir un nuevo producto
- */
 export const addProduct = async (data) => {
   try {
     let imageUrl = data.imageUrl || "";
-    if (data.imageFile) {
-      imageUrl = await uploadImage(data.imageFile, "productos");
-    }
+    if (data.imageFile) imageUrl = await uploadImage(data.imageFile, "productos");
 
     const docRef = await addDoc(collection(db, "productos"), {
       ...data,
@@ -187,15 +149,10 @@ export const addProduct = async (data) => {
   }
 };
 
-/**
- * Actualizar un producto
- */
 export const updateProduct = async (id, data) => {
   try {
     let imageUrl = data.imageUrl || "";
-    if (data.imageFile) {
-      imageUrl = await uploadImage(data.imageFile, "productos");
-    }
+    if (data.imageFile) imageUrl = await uploadImage(data.imageFile, "productos");
 
     const docRef = doc(db, "productos", id);
     await updateDoc(docRef, { ...data, imageUrl, updatedAt: serverTimestamp() });
@@ -208,9 +165,6 @@ export const updateProduct = async (id, data) => {
   }
 };
 
-/**
- * Eliminar un producto
- */
 export const deleteProduct = async (id) => {
   try {
     await deleteDoc(doc(db, "productos", id));
@@ -219,163 +173,133 @@ export const deleteProduct = async (id) => {
     console.error("❌ Error al eliminar producto:", error);
   }
 };
+
 /* =========================================
    🔹 FUNCIONES PARA EVENTOS Y ACTIVIDADES
    ========================================= */
 
-/**
- * Obtener todos los eventos
- * (Ejemplo: Fiestas Desertu, Putxera Eguna, Navidades...)
- */
+// Obtener todos los eventos
 export const getAllEvents = async () => {
   try {
-    const querySnapshot = await getDocs(collection(db, "eventos"));
-    return querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
+    const snapshot = await getDocs(collection(db, EVENTS_COLLECTION));
+    return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
   } catch (error) {
-    console.error("❌ Error al obtener eventos:", error);
+    console.error("Error al obtener eventos:", error);
     return [];
   }
 };
 
-/**
- * Obtener todas las actividades de todos los eventos
- */
-export const getAllActivities = async () => {
+// Obtener un evento por ID
+export const getEventById = async (id) => {
   try {
-    const eventsSnapshot = await getDocs(collection(db, "eventos"));
-    const activities = [];
-
-    for (const eventDoc of eventsSnapshot.docs) {
-      const eventId = eventDoc.id;
-      const eventData = eventDoc.data();
-
-      const activitiesSnapshot = await getDocs(
-        collection(db, `eventos/${eventId}/actividades`)
-      );
-
-      activitiesSnapshot.forEach((activityDoc) => {
-        activities.push({
-          id: activityDoc.id,
-          eventId,
-          eventName: eventData?.name || {},
-          ...activityDoc.data(),
-        });
-      });
-    }
-
-    return activities;
+    const ref = doc(db, EVENTS_COLLECTION, id);
+    const snapshot = await getDoc(ref);
+    return snapshot.exists() ? { id: snapshot.id, ...snapshot.data() } : null;
   } catch (error) {
-    console.error("❌ Error al obtener actividades:", error);
-    return [];
+    console.error("Error al obtener el evento:", error);
+    return null;
   }
 };
 
-/**
- * Obtener todas las actividades de un evento concreto
- */
-export const getActivitiesByEvent = async (eventId) => {
+// Añadir un nuevo evento
+export const addEvent = async (eventData) => {
   try {
-    const querySnapshot = await getDocs(
-      collection(db, `eventos/${eventId}/actividades`)
-    );
-    return querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      eventId,
-      ...doc.data(),
-    }));
+    const ref = await addDoc(collection(db, EVENTS_COLLECTION), eventData);
+    return ref.id;
   } catch (error) {
-    console.error(`❌ Error al obtener actividades del evento ${eventId}:`, error);
-    return [];
-  }
-};
-
-/**
- * Añadir una nueva actividad a un evento
- * @param {string} eventId - ID del evento
- * @param {object} activityData - Datos de la actividad
- */
-export const addActivity = async (eventId, activityData) => {
-  try {
-    const docRef = await addDoc(
-      collection(db, `eventos/${eventId}/actividades`),
-      {
-        ...activityData,
-        createdAt: serverTimestamp(),
-      }
-    );
-    console.log("✅ Actividad añadida:", docRef.id);
-    return docRef.id;
-  } catch (error) {
-    console.error("❌ Error al añadir actividad:", error);
+    console.error("Error al añadir evento:", error);
     throw error;
   }
 };
 
-/**
- * Actualizar una actividad existente
- * @param {string} eventId - ID del evento al que pertenece
- * @param {string} activityId - ID de la actividad
- * @param {object} data - Datos actualizados
- */
-export const updateActivity = async (eventId, activityId, data) => {
+// Actualizar un evento
+export const updateEvent = async (id, updatedData) => {
   try {
-    const docRef = doc(db, `eventos/${eventId}/actividades`, activityId);
-    await updateDoc(docRef, { ...data, updatedAt: serverTimestamp() });
-    console.log("✅ Actividad actualizada:", activityId);
+    const ref = doc(db, EVENTS_COLLECTION, id);
+    await updateDoc(ref, updatedData);
   } catch (error) {
-    console.error("❌ Error al actualizar actividad:", error);
+    console.error("Error al actualizar evento:", error);
     throw error;
   }
 };
 
-/**
- * Eliminar una actividad
- * @param {string} eventId - ID del evento
- * @param {string} activityId - ID de la actividad
- */
-export const deleteActivity = async (eventId, activityId) => {
-  try {
-    await deleteDoc(doc(db, `eventos/${eventId}/actividades`, activityId));
-    console.log("🗑️ Actividad eliminada:", activityId);
-  } catch (error) {
-    console.error("❌ Error al eliminar actividad:", error);
-    throw error;
-  }
-};
-
-/**
- * Añadir, actualizar y eliminar eventos
- */
-export const addEvent = async (data) => {
-  try {
-    const docRef = await addDoc(collection(db, "eventos"), {
-      ...data,
-      createdAt: serverTimestamp(),
-    });
-    return docRef.id;
-  } catch (error) {
-    console.error("❌ Error al crear evento:", error);
-  }
-};
-
-export const updateEvent = async (id, data) => {
-  try {
-    const docRef = doc(db, "eventos", id);
-    await updateDoc(docRef, { ...data, updatedAt: serverTimestamp() });
-  } catch (error) {
-    console.error("❌ Error al actualizar evento:", error);
-  }
-};
-
+// Eliminar un evento y sus actividades asociadas
 export const deleteEvent = async (id) => {
   try {
-    await deleteDoc(doc(db, "eventos", id));
+    // Eliminar primero las actividades asociadas
+    const q = query(
+      collection(db, ACTIVITIES_COLLECTION),
+      where("eventId", "==", id)
+    );
+    const snapshot = await getDocs(q);
+    const deletions = snapshot.docs.map((d) => deleteDoc(d.ref));
+    await Promise.all(deletions);
+
+    // Luego eliminar el evento
+    await deleteDoc(doc(db, EVENTS_COLLECTION, id));
   } catch (error) {
-    console.error("❌ Error al eliminar evento:", error);
+    console.error("Error al eliminar evento:", error);
+    throw error;
+  }
+};
+// ======================================================
+// 🎉 ACTIVIDADES
+// ======================================================
+// Obtener todas las actividades
+export const getAllActivities = async () => {
+  try {
+    const snapshot = await getDocs(collection(db, ACTIVITIES_COLLECTION));
+    return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  } catch (error) {
+    console.error("Error al obtener actividades:", error);
+    return [];
   }
 };
 
+// Obtener actividades por ID de evento
+export const getActivitiesByEvent = async (eventId) => {
+  try {
+    const q = query(
+      collection(db, ACTIVITIES_COLLECTION),
+      where("eventId", "==", eventId)
+    );
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  } catch (error) {
+    console.error("Error al obtener actividades del evento:", error);
+    return [];
+  }
+};
 
+// Añadir una nueva actividad
+export const addActivity = async (activityData) => {
+  try {
+    const ref = await addDoc(collection(db, ACTIVITIES_COLLECTION), activityData);
+    return ref.id;
+  } catch (error) {
+    console.error("Error al añadir actividad:", error);
+    throw error;
+  }
+};
+
+// Actualizar una actividad
+export const updateActivity = async (id, updatedData) => {
+  try {
+    const ref = doc(db, ACTIVITIES_COLLECTION, id);
+    await updateDoc(ref, updatedData);
+  } catch (error) {
+    console.error("Error al actualizar actividad:", error);
+    throw error;
+  }
+};
+
+// Eliminar una actividad
+export const deleteActivity = async (id) => {
+  try {
+    const ref = doc(db, ACTIVITIES_COLLECTION, id);
+    await deleteDoc(ref);
+  } catch (error) {
+    console.error("Error al eliminar actividad:", error);
+    throw error;
+  }
+};

@@ -1,42 +1,66 @@
-// src/pages/Admin/EventsAdmin/ActivityForm.jsx
+// src/components/events/ActivityForm.jsx
 import React, { useState, useEffect } from "react";
-import { addActivity, updateActivity } from "../../../firebase/firestore";
-import "../../../styles/ActivityForm.scss";
+import { getAllEvents, addActivity, updateActivity } from "../../firebase/firestore";
+import "/src/styles/components/Events/ActivityForm.scss";
 
-const ActivityForm = ({ activity, events, onClose, onSave }) => {
+const ActivityForm = ({ activity, onClose, onSave }) => {
   const [formData, setFormData] = useState({
     eventId: "",
+    eventName: "",
     title: { es: "", eu: "" },
     description: { es: "", eu: "" },
     date: "",
     time: "",
     location: "",
     requiresRegistration: false,
-    registrationFormUrl: "",
   });
+
+  const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  // Si se está editando, precargar datos
+  /* =====================================================
+     🔄 Cargar lista de eventos desde Firestore
+  ===================================================== */
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const eventsData = await getAllEvents();
+        setEvents(eventsData);
+      } catch (err) {
+        console.error("❌ Error al cargar eventos:", err);
+        setMessage("Error al cargar los eventos");
+      }
+    };
+
+    fetchEvents();
+  }, []);
+
+  /* =====================================================
+     🌀 Precargar datos si se edita una actividad
+  ===================================================== */
   useEffect(() => {
     if (activity) {
       setFormData({
         eventId: activity.eventId || "",
+        eventName: activity.eventName || "",
         title: activity.title || { es: "", eu: "" },
         description: activity.description || { es: "", eu: "" },
         date: activity.date || "",
         time: activity.time || "",
         location: activity.location || "",
         requiresRegistration: activity.requiresRegistration || false,
-        registrationFormUrl: activity.registrationFormUrl || "",
       });
     }
   }, [activity]);
 
+  /* =====================================================
+     🖊️ Manejo de cambios
+  ===================================================== */
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
-    if (name.includes("title.") || name.includes("description.")) {
+    if (name.includes(".")) {
       const [field, lang] = name.split(".");
       setFormData((prev) => ({
         ...prev,
@@ -44,40 +68,66 @@ const ActivityForm = ({ activity, events, onClose, onSave }) => {
       }));
     } else if (type === "checkbox") {
       setFormData((prev) => ({ ...prev, [name]: checked }));
+    } else if (name === "eventId") {
+      const selected = events.find((ev) => ev.id === value);
+      setFormData((prev) => ({
+        ...prev,
+        eventId: value,
+        eventName: selected ? selected.title?.es || selected.title?.eu || "" : "",
+      }));
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setMessage("");
+/* =====================================================
+     💾 Guardar (nuevo o edición)
+  ===================================================== */
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  setMessage("");
 
-    try {
-      if (activity?.id) {
-        await updateActivity(activity.eventId, activity.id, formData);
-        onSave({ ...activity, ...formData });
-        setMessage("✅ Actividad actualizada correctamente");
-      } else {
-        const newId = await addActivity(formData.eventId, formData);
-        onSave({ id: newId, ...formData });
-        setMessage("✅ Actividad añadida correctamente");
-      }
-    } catch (err) {
-      console.error(err);
-      setMessage("❌ Error al guardar la actividad");
-    } finally {
+  try {
+    if (!formData.eventId) {
+      setMessage("❌ Debes seleccionar un evento.");
       setLoading(false);
+      return;
     }
-  };
 
+    if (activity?.id) {
+      await updateActivity(activity.id, formData);
+      onSave({ ...activity, ...formData });
+      setMessage("✅ Actividad actualizada correctamente");
+    } else {
+      const newId = await addActivity(formData);
+      onSave({ id: newId, ...formData });
+      setMessage("✅ Actividad añadida correctamente");
+    }
+
+    // 🔹 Esperar un poco para mostrar el mensaje antes de cerrar
+    setTimeout(() => {
+      onClose();
+    }, 1200);
+  } catch (err) {
+    console.error("❌ Error al guardar actividad:", err);
+    setMessage("❌ Error al guardar la actividad");
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+  /* =====================================================
+     🧱 Render
+  ===================================================== */
   return (
-    <div className="activity-form-overlay">
+    <div className="activity-form-container">
       <div className="activity-form">
         <h2>{activity ? "Editar actividad" : "Nueva actividad"}</h2>
 
         <form onSubmit={handleSubmit}>
+          {/* Evento */}
           <label>Evento</label>
           <select
             name="eventId"
@@ -86,13 +136,14 @@ const ActivityForm = ({ activity, events, onClose, onSave }) => {
             required
           >
             <option value="">Selecciona un evento</option>
-            {events.map((e) => (
-              <option key={e.id} value={e.id}>
-                {e.name?.es || e.name?.eu || e.id}
+            {events.map((ev) => (
+              <option key={ev.id} value={ev.id}>
+                {ev.title?.es || ev.title?.eu || "Evento sin título"}
               </option>
             ))}
           </select>
 
+          {/* Título y descripción (Castellano) */}
           <h3>Castellano</h3>
           <input
             type="text"
@@ -109,6 +160,7 @@ const ActivityForm = ({ activity, events, onClose, onSave }) => {
             onChange={handleChange}
           />
 
+          {/* Título y descripción (Euskera) */}
           <h3>Euskera</h3>
           <input
             type="text"
@@ -125,6 +177,7 @@ const ActivityForm = ({ activity, events, onClose, onSave }) => {
             onChange={handleChange}
           />
 
+          {/* Fecha y hora */}
           <div className="form-group">
             <label>Fecha</label>
             <input
@@ -146,6 +199,7 @@ const ActivityForm = ({ activity, events, onClose, onSave }) => {
             />
           </div>
 
+          {/* Lugar */}
           <div className="form-group">
             <label>Lugar</label>
             <input
@@ -156,6 +210,7 @@ const ActivityForm = ({ activity, events, onClose, onSave }) => {
             />
           </div>
 
+          {/* Checkbox inscripción */}
           <div className="form-group checkbox">
             <label>
               <input
@@ -168,19 +223,7 @@ const ActivityForm = ({ activity, events, onClose, onSave }) => {
             </label>
           </div>
 
-          {formData.requiresRegistration && (
-            <div className="form-group">
-              <label>URL del formulario</label>
-              <input
-                type="url"
-                name="registrationFormUrl"
-                placeholder="https://..."
-                value={formData.registrationFormUrl}
-                onChange={handleChange}
-              />
-            </div>
-          )}
-
+          {/* Botones */}
           <div className="form-actions">
             <button type="submit" disabled={loading}>
               {loading ? "Guardando..." : "Guardar"}
@@ -202,3 +245,6 @@ const ActivityForm = ({ activity, events, onClose, onSave }) => {
 };
 
 export default ActivityForm;
+
+
+

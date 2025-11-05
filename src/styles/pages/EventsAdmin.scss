@@ -1,0 +1,28 @@
+@use '../base/variables' as *;
+.events-admin {
+  min-height: 100vh;
+  padding: $spacing-xl $spacing-md;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: $font-primary;
+  background-color: $color-blanco;
+
+  &__header {
+    text-align: center;
+    margin-bottom: $spacing-lg;
+    max-width: 700px;
+  }
+
+  &__title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: $color-violeta;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__subtitle {
+    color: #555;
+    font-size: 1rem;
+  }
+}

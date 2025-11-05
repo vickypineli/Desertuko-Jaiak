@@ -71,7 +71,7 @@
 │   │   │   ├── EventsAdmin
 │   │   │   └── ShopAdmin
 │   │   └── Home
-│   │       ├── Collaborators.jsx
+│   │       ├── CollaboratorsPage.jsx
 │   │       ├── Events
 │   │       ├── Home.jsx
 │   │       └── ShopPage.jsx
@@ -80,6 +80,7 @@
 │       │   ├── _base.scss
 │       │   └── _variables.scss
 │       ├── components
+│       │   ├── ActivityForm.scss
 │       │   ├── CollaboratorForm.scss
 │       │   ├── CollaboratorModal.scss
 │       │   ├── ComercioCard.scss
@@ -97,6 +98,7 @@
 │       │   ├── AdminPanel.scss
 │       │   ├── CollaboratorsAdmin.scss
 │       │   ├── Collaborators.scss
+│       │   ├── EventsPage.scss
 │       │   ├── Home.scss
 │       │   └── ShopPage.scss
 │       └── ui
@@ -105,4 +107,4 @@
 │           └── Navbar.scss
 └── vite.config.js
 
-28 directories, 78 files
+28 directories, 80 files

@@ -1,138 +1,120 @@
-//src/components/EventForm.jsx
-import { useState } from "react";
-import  Button  from "/src/components/ui/Button.jsx";
+// src/components/events/EventForm.jsx
+import React, { useEffect, useState } from "react";
+import { addEvent, updateEvent } from "../../firebase/firestore";
+import "../../styles/components/Events/ActivityForm.scss"; // Reutiliza el mismo estilo
 
-export default function EventForm({ event, onCancel, onSave }) {
+const EventForm = ({ event, onClose, onSave }) => {
   const [formData, setFormData] = useState({
-    name: event?.name || { es: "", eu: "" },
-    description: event?.description || { es: "", eu: "" },
-    startDate: event?.startDate || "",
-    endDate: event?.endDate || "",
-    pdfUrl: event?.pdfUrl || "",
+    title: { es: "", eu: "" },
+    date: "",
   });
 
-  const handleChange = (lang, field, value) => {
-    if (field === "name" || field === "description") {
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+
+  // Si estamos editando, precarga los datos
+  useEffect(() => {
+    if (event) {
+      setFormData({
+        title: event.title || { es: "", eu: "" },
+        date: event.date || "",
+      });
+    }
+  }, [event]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    if (name.includes(".")) {
+      const [field, lang] = name.split(".");
       setFormData((prev) => ({
         ...prev,
         [field]: { ...prev[field], [lang]: value },
       }));
     } else {
-      setFormData((prev) => ({ ...prev, [field]: value }));
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSave(formData);
+    setLoading(true);
+    setMessage("");
+
+    try {
+      if (event?.id) {
+        await updateEvent(event.id, formData);
+        onSave({ ...event, ...formData });
+        setMessage("✅ Evento actualizado correctamente");
+      } else {
+        const newId = await addEvent(formData);
+        onSave({ id: newId, ...formData });
+        setMessage("✅ Evento añadido correctamente");
+      }
+    } catch (err) {
+      console.error("❌ Error al guardar el evento:", err);
+      setMessage("❌ Error al guardar el evento");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="bg-white rounded-2xl shadow p-6 max-w-2xl mx-auto"
-    >
-      <h2 className="text-2xl font-bold text-violet-700 mb-4">
-        {event ? "✏️ Editar Evento" : "➕ Nuevo Evento"}
-      </h2>
+    <div className="activity-form-overlay">
+      <div className="activity-form-container">
+        <h2>{event ? "Editar evento" : "Nuevo evento"}</h2>
 
-      <div className="grid gap-4">
-        {/* Nombre */}
-        <div>
-          <label className="block font-semibold text-gray-700">Título (ES)</label>
+        <form onSubmit={handleSubmit}>
+          <h3>Castellano</h3>
           <input
             type="text"
-            className="w-full border rounded p-2"
-            value={formData.name.es}
-            onChange={(e) => handleChange("es", "name", e.target.value)}
+            name="title.es"
+            placeholder="Título (ES)"
+            value={formData.title.es}
+            onChange={handleChange}
             required
           />
-        </div>
-        <div>
-          <label className="block font-semibold text-gray-700">Titulua (EU)</label>
+
+          <h3>Euskera</h3>
           <input
             type="text"
-            className="w-full border rounded p-2"
-            value={formData.name.eu}
-            onChange={(e) => handleChange("eu", "name", e.target.value)}
+            name="title.eu"
+            placeholder="Titulua (EU)"
+            value={formData.title.eu}
+            onChange={handleChange}
             required
           />
-        </div>
 
-        {/* Descripción */}
-        <div>
-          <label className="block font-semibold text-gray-700">
-            Descripción (ES)
-          </label>
-          <textarea
-            className="w-full border rounded p-2"
-            rows={3}
-            value={formData.description.es}
-            onChange={(e) => handleChange("es", "description", e.target.value)}
-          />
-        </div>
-        <div>
-          <label className="block font-semibold text-gray-700">Deskribapena (EU)</label>
-          <textarea
-            className="w-full border rounded p-2"
-            rows={3}
-            value={formData.description.eu}
-            onChange={(e) => handleChange("eu", "description", e.target.value)}
-          />
-        </div>
-
-        {/* Fechas */}
-        <div className="flex gap-4">
-          <div className="flex-1">
-            <label className="block font-semibold text-gray-700">Fecha inicio</label>
+          <div className="form-group">
+            <label>Fecha</label>
             <input
               type="date"
-              className="w-full border rounded p-2"
-              value={formData.startDate}
-              onChange={(e) => handleChange(null, "startDate", e.target.value)}
+              name="date"
+              value={formData.date}
+              onChange={handleChange}
               required
             />
           </div>
-          <div className="flex-1">
-            <label className="block font-semibold text-gray-700">Fecha fin</label>
-            <input
-              type="date"
-              className="w-full border rounded p-2"
-              value={formData.endDate}
-              onChange={(e) => handleChange(null, "endDate", e.target.value)}
-              required
-            />
+
+          <div className="form-actions">
+            <button type="submit" disabled={loading}>
+              {loading ? "Guardando..." : "Guardar"}
+            </button>
+            <button type="button" className="btn-cancel" onClick={onClose}>
+              Cancelar
+            </button>
           </div>
-        </div>
+        </form>
 
-        {/* PDF */}
-        <div>
-          <label className="block font-semibold text-gray-700">
-            Enlace al PDF del programa (opcional)
-          </label>
-          <input
-            type="url"
-            placeholder="https://..."
-            className="w-full border rounded p-2"
-            value={formData.pdfUrl}
-            onChange={(e) => handleChange(null, "pdfUrl", e.target.value)}
-          />
-        </div>
-
-        {/* Botones */}
-        <div className="flex justify-end gap-2 mt-4">
-          <Button
-            type="button"
-            onClick={onCancel}
-            className="bg-gray-400 hover:bg-gray-500"
+        {message && (
+          <p
+            className={`message ${message.includes("✅") ? "success" : "error"}`}
           >
-            Cancelar
-          </Button>
-          <Button type="submit" className="bg-violet-600 hover:bg-violet-700">
-            {event ? "Guardar cambios" : "Crear evento"}
-          </Button>
-        </div>
+            {message}
+          </p>
+        )}
       </div>
-    </form>
+    </div>
   );
-}
+};
+
+export default EventForm;
