@@ -1,7 +1,7 @@
-//src/pages/Home/Events/EventsPage.jsx
+// src/pages/Home/Events/EventsPage.jsx
 import React, { useEffect, useState } from "react";
 import { getAllEvents } from "/src/firebase/firestore";
-import FiestaCard from "/src/components/events/FiestaCard.jsx";
+import EventCard from "/src/components/events/EventCard.jsx";
 import '/src/styles/pages/EventsPage.scss';
 
 const EventsPage = () => {
@@ -21,6 +21,7 @@ const EventsPage = () => {
   return (
     <main className="events-page">
       <h1 className="events-page__title">Próximos Eventos</h1>
+
       {loading ? (
         <p>Cargando eventos...</p>
       ) : events.length === 0 ? (
@@ -28,11 +29,12 @@ const EventsPage = () => {
       ) : (
         <div className="events-page__grid">
           {events.map((event) => (
-            <FiestaCard
+            <EventCard
               key={event.id}
-              nombre={event.nombre}
-              fecha={event.fecha}
-              imagen={event.imagen}
+              title={event.title?.es || event.title?.eu || "Sin título"}
+              startDate={event.date}
+              endDate={event.isMultiDay ? event.endDate : null}
+              image={event.image || "/images/default-event.jpg"} // por si agregas imágenes después
             />
           ))}
         </div>

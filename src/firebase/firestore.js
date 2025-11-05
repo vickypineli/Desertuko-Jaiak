@@ -202,12 +202,24 @@ export const getEventById = async (id) => {
 };
 
 // Añadir un nuevo evento
-export const addEvent = async (eventData) => {
+export const addEvent = async (data) => {
   try {
-    const ref = await addDoc(collection(db, EVENTS_COLLECTION), eventData);
-    return ref.id;
+    const eventsRef = collection(db, "events");
+
+    // Estructuramos los datos para guardar
+    const eventData = {
+      title: data.title || { es: "", eu: "" },
+      date: data.date || "",
+      isMultiDay: data.isMultiDay || false,
+      endDate: data.isMultiDay ? data.endDate || "" : "", // si no es multiday, vacío
+      createdAt: new Date().toISOString(),
+    };
+
+    const docRef = await addDoc(eventsRef, eventData);
+    console.log("✅ Evento añadido con ID:", docRef.id);
+    return docRef.id;
   } catch (error) {
-    console.error("Error al añadir evento:", error);
+    console.error("❌ Error al añadir evento:", error);
     throw error;
   }
 };

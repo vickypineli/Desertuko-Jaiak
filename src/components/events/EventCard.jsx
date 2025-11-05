@@ -1,38 +1,34 @@
-// src/components/EventCard.jsx
+// src/components/events/EventCard.jsx
 import React from "react";
-import PropTypes from "prop-types";
-// eslint-disable-next-line no-unused-vars
-import { motion } from "framer-motion";
-import "/src/styles/components/FiestaCard.scss";
+import "/src/styles/components/Events/EventCard.scss";
 
-function EventCard({ nombre, fecha, imagen }) {
+const EventCard = ({ title, startDate, endDate, image }) => {
+  // Formatea las fechas a formato legible
+  const formatDate = (dateStr) => {
+    if (!dateStr) return "";
+    const date = new Date(dateStr);
+    return date.toLocaleDateString("es-ES", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+  };
+
+  const formattedDate = endDate
+    ? `${formatDate(startDate)} — ${formatDate(endDate)}`
+    : formatDate(startDate);
+
   return (
-    <motion.article
-      className="fiesta-card"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-      transition={{ duration: 0.45, ease: "easeOut" }}
-      aria-label={`${nombre} - ${fecha}`}
-    >
-      <div className="fiesta-card__image-wrapper">
-        <img
-          src={imagen}
-          alt={nombre}
-          className="fiesta-card__image"
-          loading="lazy"
-        />
+    <article className="fiesta-card">
+      <div className="fiesta-card__image-container">
+        <img src={image} alt={title} className="fiesta-card__image" />
       </div>
-      <h3 className="fiesta-card__title">{nombre}</h3>
-      <p className="fiesta-card__date">{fecha}</p>
-    </motion.article>
+      <div className="fiesta-card__content">
+        <h2 className="fiesta-card__title">{title}</h2>
+        <p className="fiesta-card__date">{formattedDate}</p>
+      </div>
+    </article>
   );
-}
-
-EventCard.propTypes = {
-  nombre: PropTypes.string.isRequired,
-  fecha: PropTypes.string.isRequired,
-  imagen: PropTypes.string.isRequired,
 };
 
 export default EventCard;

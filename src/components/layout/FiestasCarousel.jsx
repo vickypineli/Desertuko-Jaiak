@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from 'react-i18next';
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
-import FiestaCard from "/src/components/events/FiestaCard.jsx";
+import EventCard from "/src/components/events/EventCard.jsx";
 import "/src/styles/components/FiestasCarousel.scss";
 
 const DEFAULT_AUTOPLAY_MS = 5000; // 5s
@@ -98,7 +98,7 @@ const items = [
         >
           {items.map((item, i) => (
             <div className="carousel-slide" key={i}>
-              <FiestaCard {...item} />
+              <EventCard {...item} />
             </div>
           ))}
         </motion.div>

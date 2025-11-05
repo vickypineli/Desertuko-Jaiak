@@ -1,0 +1,45 @@
+// src/styles/components/Events/EventCard.scss
+@use '../../base/variables' as *;
+
+.fiesta-card {
+  background-color: $color-gray-light;
+  border-radius: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  &__image-container {
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__content {
+    padding: $spacing-md;
+  }
+
+  &__title {
+    font-family: $font-primary;
+    font-size: 1.2rem;
+    color: $color-violeta;
+    margin-bottom: $spacing-xs;
+  }
+
+  &__date {
+    font-family: $font-sans;
+    color: $color-text-dark;
+    font-size: 0.95rem;
+  }
+}

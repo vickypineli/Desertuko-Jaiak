@@ -5,6 +5,7 @@ import "../../styles/components/Events/EventForm.scss"; // Reutiliza el mismo es
 
 const EventForm = ({ event, onClose, onSave }) => {
   const [formData, setFormData] = useState({
+  
     title: { es: "", eu: "" },
     date: "",
     isMultiDay: false,
